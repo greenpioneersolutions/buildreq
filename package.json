@@ -1,0 +1,31 @@
+{
+  "name": "buildreq",
+  "version": "0.0.1",
+  "description": "buildreq",
+  "main": "apps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GreenPioneer/buildreq.git"
+  },
+  "keywords": [
+    "GreenPioneer",
+    "express"
+  ],
+  "author": "Green Pioneer <green@greenpioneersolutions.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GreenPioneer/buildreq/issues"
+  },
+  "homepage": "https://github.com/GreenPioneer/buildreq",
+  "dependencies": {
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.1.8"
+  },
+  "devDependencies": {
+  }
+}
