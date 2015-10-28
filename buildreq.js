@@ -61,7 +61,6 @@ function response(res, value) {
     response.actions = {};
     var url = '';
     var hostname = value.hostname || defaults.hostname;
-
     function urlBuilder(data) {
         data = data.trim().replace(/\s/g, "%20");
         if (url === '') {
@@ -82,13 +81,15 @@ function response(res, value) {
                 _.forEach(value.query[key], function (j, keyObj) {
                     urlBuilder(keyObj + '=' + j)
                 })
-            } else if (value.query[key] && value.query[key] !== n) urlBuilder(key + '=' + value.query[key]);
+            } else if (value.query[key] && value.query[key] !== n ){
+            	urlBuilder(key + '=' + value.query[key]);
+            } 
         })
     }
 
     function reload() {
         url = '';
-        queryBuilder()
+        queryBuilder();
         response.actions.reload = {
             allowed: _.keys(value.route.methods),
             ref: value.hostname + url
@@ -97,7 +98,7 @@ function response(res, value) {
 
     function next(number) {
         url = '';
-        queryBuilder()
+        queryBuilder();
         var dataSkip = parseInt(value.query.limit) + parseInt(value.query.skip);
         if (dataSkip < count) {
             urlBuilder('skip=' + dataSkip);
@@ -110,8 +111,7 @@ function response(res, value) {
 
     function prev(number) {
         url = '';
-        queryBuilder()
-            //need to fix this to handle more numbers
+        queryBuilder();
         var dataSkip = parseInt(value.query.skip) - parseInt(value.query.limit);
         if (dataSkip > 0) {
             urlBuilder('skip=' + dataSkip)
@@ -231,10 +231,10 @@ function query(req, res, next) {
     }
 
     //populate
-    queryParameters.populateId = query.populateId ? populateIdCheck(query.populateId) : populateIdCheck(models);
-    queryParameters.populateItems = query.populateItems ? populateItemsCheck(query.populateItems) : populateItemsCheck(schema);
+    queryParameters.populateId = query.populateId ? populateIdCheck(query.populateId) : populateIdCheck(models,true);
+    queryParameters.populateItems = query.populateItems ? populateItemsCheck(query.populateItems) : populateItemsCheck(schema,true);
 
-    function populateIdCheck(data) {
+    function populateIdCheck(data,value) {
         var populateId = '';
         if (!_.isArray(data)) {
             data = data.replace(',', ' ').split(" ");
@@ -247,11 +247,11 @@ function query(req, res, next) {
                 errorHandler(n, "populateId", defaults.populateId);
             };
         })
-
+        if(value)options.query.populateId = populateId;
         return populateId;
     }
 
-    function populateItemsCheck(data) {
+    function populateItemsCheck(data ,value) {
         var populateItems = '';
         if (!_.isArray(data)) {
             data = data.replace(',', ' ').split(" ");
@@ -264,7 +264,7 @@ function query(req, res, next) {
                 errorHandler(n, "populateItems", defaults.populateItems);
             };
         })
-
+        if(value)options.query.populateItems = populateItems;
         return populateItems;
     }
     //ERRORHANDLER
