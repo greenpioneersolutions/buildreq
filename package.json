@@ -2,10 +2,9 @@
   "name": "buildreq",
   "version": "0.0.1",
   "description": "buildreq",
-  "main": "apps.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
   },
   "repository": {
     "type": "git",
@@ -14,6 +13,19 @@
   "keywords": [
     "GreenPioneer",
     "express"
+  ],
+  "contributors": [
+    {
+      "name": "GreenPioneer",
+      "email": "green@greenpioneersolutions.com",
+      "web": "https://github.com/GreenPioneer"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "GreenPioneer",
+      "web": "https://github.com/GreenPioneer?tab=members"
+    }
   ],
   "author": "Green Pioneer <green@greenpioneersolutions.com>",
   "license": "MIT",
