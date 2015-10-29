@@ -10,11 +10,16 @@ buildReq.config({
         user:{},
         count:0,
         hostname:"",
-        type:""
+        type:"",
+        actions:{
+            prev:false,
+            next:false
+        },
+        delete:['error','itemPerPage','type']
     },
     query:{
-        sort: "-created",
-        limit: 30,
+        sort: "",
+        limit: 10,
         select: "",
         filter:{},
         populateId: "",
@@ -25,6 +30,7 @@ buildReq.config({
         gt: 1,
         lt: 0,
         in : [],
+        equal:"",
         errorMessage: "Unknown Value"
     }
 })
@@ -37,34 +43,40 @@ var blogSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testtitle"
     },
     content: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testcontent"
     },
     author: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testauthor"
     }
 });
 var usersSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testname"
     },
     email: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testemail"
     },
     username: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default: "testusername"
     }
 });
 
@@ -77,12 +89,32 @@ app.use(buildReq.query);
 app.set('port', process.env.PORT || 3000);
 // View
 app.get('/', function(req, res) {
-    Blog.find()
-        .exec()
-        .then(function(blogs) {
-            //NEED TO ADD HANDLING FOR ERRORS
-            buildReq.response(res,{method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:blogs});
+    buildReq.response(res,{method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:"no data"});        
+})
+app.get('/blog', function(req, res) {
+    Blog.find(req.queryParameters.filter)
+        .sort(req.queryParameters.sort)
+        .select(req.queryParameters.select)
+        .limit(req.queryParameters.limit)
+        .skip(req.queryParameters.skip)
+        .exec(function(err,blogs) {
+            Blog.count(req.queryParameters.filter,function(err, totalCount){
+                buildReq.response(res,{count:totalCount,method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:blogs});
+            });
+            
         });
+});
+app.get('/create', function (req, res) {
+    var blog = new Blog({});
+    var user = new Users({});
+    blog.save(function (err) {
+        if (err) return res.status(400) ;
+        else user.save(function (err) {
+                if (err) return res.status(400);
+                else res.status(201);
+            })
+    })
+
 });
 
 app.listen(app.get('port'), function() {
