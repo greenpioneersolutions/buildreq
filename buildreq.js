@@ -17,7 +17,13 @@ var options = {
         count: 0,
         hostname: "",
         query: {},
-        type: ""
+        type: "",
+        actions:{
+            prev:true,
+            next:true,
+            reload:true
+        },
+        delete:[]
     },
     query: {
         sort: "-created",
@@ -32,7 +38,9 @@ var options = {
         gt: 1,
         lt: 0,
         in : [],
-        errorMessage: "Unknown Value"
+        equals:"",
+        errorMessage: "Unknown Value",
+        delete:[]
     }
 };
 
@@ -49,13 +57,12 @@ function error(err, req, res, next) {
 
 function config(configs) {
     if (configs) {
-        options = _.extend(options, configs);
+        options = _.defaultsDeep(configs,options);
     }
 }
 
 function response(res, value) {
-    var defaults = {};
-    defaults = _.extend(options.response, defaults);
+    var defaults = options.response;
 
     var response = {};
     response.actions = {};
@@ -71,7 +78,10 @@ function response(res, value) {
         return url
     }
 
-    function queryBuilder() {
+    function queryBuilder(skipfield) {
+        function skip(field){
+            return skipfield ==field? false : true;
+        }
         _.forEach(options.query, function (n, key) {
             if (_.isArray(n)) {
                 _.forEach(value.query[key], function (k, keyArr) {
@@ -82,47 +92,56 @@ function response(res, value) {
                     urlBuilder(keyObj + '=' + j)
                 })
             } else if (value.query[key] && value.query[key] !== n ){
-            	urlBuilder(key + '=' + value.query[key]);
+                if(skip(key)){
+                    urlBuilder(key + '=' + value.query[key]);
+                }
+            	
             } 
         })
     }
 
     function reload() {
-        url = '';
-        queryBuilder();
-        response.actions.reload = {
-            allowed: _.keys(value.route.methods),
-            ref: value.hostname + url
+        if(defaults.actions.reload){
+            url = '';
+            queryBuilder();
+            response.actions.reload = {
+                allowed: _.keys(value.route.methods),
+                ref: value.hostname + url
+            }
         }
     }
 
     function next(number) {
-        url = '';
-        queryBuilder();
-        var dataSkip = parseInt(value.query.limit) + parseInt(value.query.skip);
-        if (dataSkip < count) {
-            urlBuilder('skip=' + dataSkip);
-            response.actions.next = {
-                allowed: _.keys(value.route.methods),
-                ref: value.hostname + url
+        if(defaults.actions.next){
+            url = '';
+            queryBuilder('skip');
+            var dataSkip = parseInt(value.query.limit) + parseInt(value.query.skip);
+            if (dataSkip < value.count) {
+                urlBuilder('skip=' + dataSkip);
+                response.actions.next = {
+                    allowed: _.keys(value.route.methods),
+                    ref: value.hostname + url
+                }
             }
         }
     }
 
     function prev(number) {
-        url = '';
-        queryBuilder();
-        var dataSkip = parseInt(value.query.skip) - parseInt(value.query.limit);
-        if (dataSkip > 0) {
-            urlBuilder('skip=' + dataSkip)
-            response.actions.prev = {
-                allowed: _.keys(value.route.methods),
-                ref: value.hostname + url
-            }
-        } else {
-            response.actions.prev = {
-                allowed: _.keys(value.route.methods),
-                ref: value.hostname + url
+        if(defaults.actions.prev){
+            url = '';
+            queryBuilder('skip');
+            var dataSkip = parseInt(value.query.skip) - parseInt(value.query.limit);
+            if (dataSkip > 0 ) {
+                urlBuilder('skip=' + dataSkip)
+                response.actions.prev = {
+                    allowed: _.keys(value.route.methods),
+                    ref: value.hostname + url
+                }
+            } else {
+                response.actions.prev = {
+                    allowed: _.keys(value.route.methods),
+                    ref: value.hostname + url
+                }
             }
         }
     }
@@ -138,7 +157,7 @@ function response(res, value) {
     response.success = true;
 
     if (value.count) {
-        if (value.data && value.data.length < count) {
+        if (value.data && value.data.length < value.count) {
             reload();
             next(value.data.length);
         } else {
@@ -150,6 +169,12 @@ function response(res, value) {
     } else {
         reload();
     }
+
+    _.forEach(defaults.delete,function(n,key){
+        if(_.isString(response[n]) || _.isArray(response[n])  || _.isObject(response[n])|| _.isNumber(response[n])){
+            delete response[n];
+        }
+    })
     res[value.method](response)
 }
 
@@ -276,6 +301,11 @@ function query(req, res, next) {
         })
         return value;
     }
+    _.forEach(defaults.delete,function(n,key){
+        if(_.isString(queryParameters[n])|| _.isArray(queryParameters[n])  || _.isObject(queryParameters[n])|| _.isNumber(queryParameters[n])){
+            delete queryParameters[n];
+        }
+    })
     req.queryParameters = queryParameters;
 
     next();
