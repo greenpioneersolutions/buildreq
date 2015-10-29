@@ -3,7 +3,6 @@
 var mongoose = require('mongoose'),
     _ = require('lodash')
 module.exports = {
-    //get
     query: query,
     response: response,
     error: error,
@@ -44,8 +43,7 @@ var options = {
     }
 };
 
-function error(err, req, res, next) {
-    //Currently just a Sample - Still need to implement
+function error(err, req, res, next) {//Currently just a Sample - Still need to implement
     if (res.headersSent) {
         return next(err);
     }
@@ -63,7 +61,6 @@ function config(configs) {
 
 function response(res, value) {
     var defaults = options.response;
-
     var response = {};
     response.actions = {};
     var url = '';
@@ -95,7 +92,6 @@ function response(res, value) {
                 if(skip(key)){
                     urlBuilder(key + '=' + value.query[key]);
                 }
-            	
             } 
         })
     }
@@ -209,36 +205,22 @@ function query(req, res, next) {
         })
     })
 
-    //SKIP
-    queryParameters.skip = query.skip || defaults.skip;
-    //WHERE
-    queryParameters.where = query.where || defaults.where;
-    //Equals
-    queryParameters.equals = query.equals || defaults.equals;
-    //GT
-    queryParameters.gt = query.gt || defaults.gt;
-    //LT
-    queryParameters.lt = query.lt || defaults.lt;
-    //IN
-    queryParameters.in = query.in || defaults.in;
-    //LEAN
-    queryParameters.lean = query.lean || defaults.lean;
-    //SORT
-    queryParameters.sort = query.sort ? sortCheck(query.sort) : defaults.sort;
-
+    queryParameters.skip = query.skip || defaults.skip;//SKIP
+    queryParameters.where = query.where || defaults.where;//WHERE
+    queryParameters.equals = query.equals || defaults.equals;//Equals
+    queryParameters.gt = query.gt || defaults.gt;//GT
+    queryParameters.lt = query.lt || defaults.lt;//LT
+    queryParameters.in = query.in || defaults.in;//IN
+    queryParameters.lean = query.lean || defaults.lean;//LEAN
+    queryParameters.sort = query.sort ? sortCheck(query.sort) : defaults.sort;//SORT
     function sortCheck(sort) {
         return -1 !== schemaSort.indexOf(sort) ? sort : errorHandler(query.sort, "sort", defaults.sort);
     }
-    //limitCheck
-    queryParameters.limit = query.limit ? limitCheck(query.limit) : defaults.limit;
-
+    queryParameters.limit = query.limit ? limitCheck(query.limit) : defaults.limit;//limitCheck
     function limitCheck(number) {
-        //plan to switch out for https://jsperf.com/number-vs-parseint-vs-plus/95 in later version
         return number < defaults.limit ? parseInt(number) : errorHandler(query.limit, "limit", defaults.limit);
     }
-    //selectCheck
-    queryParameters.select = query.select ? selectCheck(query.select) : defaults.select;
-
+    queryParameters.select = query.select ? selectCheck(query.select) : defaults.select;//selectCheck
     function selectCheck(select) {
         if (_.isArray(query.select)) {
             var selected = '';
@@ -254,11 +236,8 @@ function query(req, res, next) {
             return -1 !== schema.indexOf(select) ? select : errorHandler(query.select, "select", defaults.select);
         }
     }
-
-    //populate
-    queryParameters.populateId = query.populateId ? populateIdCheck(query.populateId) : populateIdCheck(models,true);
-    queryParameters.populateItems = query.populateItems ? populateItemsCheck(query.populateItems) : populateItemsCheck(schema,true);
-
+    queryParameters.populateId = query.populateId ? populateIdCheck(query.populateId) : populateIdCheck(models,true);//populate
+    queryParameters.populateItems = query.populateItems ? populateItemsCheck(query.populateItems) : populateItemsCheck(schema,true);//populate
     function populateIdCheck(data,value) {
         var populateId = '';
         if (!_.isArray(data)) {
@@ -275,7 +254,6 @@ function query(req, res, next) {
         if(value)options.query.populateId = populateId;
         return populateId;
     }
-
     function populateItemsCheck(data ,value) {
         var populateItems = '';
         if (!_.isArray(data)) {
@@ -292,8 +270,7 @@ function query(req, res, next) {
         if(value)options.query.populateItems = populateItems;
         return populateItems;
     }
-    //ERRORHANDLER
-    function errorHandler(errvalue, field, value) {
+    function errorHandler(errvalue, field, value) {//ERRORHANDLER
         if (!queryParameters.error[field]) queryParameters.error[field] = [];
         queryParameters.error[field].push({
             message: defaults.errorMessage,
@@ -301,7 +278,7 @@ function query(req, res, next) {
         })
         return value;
     }
-    _.forEach(defaults.delete,function(n,key){
+    _.forEach(defaults.delete,function(n,key){ //DELETE FIELDS BASED ON CONFIGS
         if(_.isString(queryParameters[n])|| _.isArray(queryParameters[n])  || _.isObject(queryParameters[n])|| _.isNumber(queryParameters[n])){
             delete queryParameters[n];
         }
