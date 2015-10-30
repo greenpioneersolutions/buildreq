@@ -5,6 +5,55 @@
 ## Q - Query - WORKING
 
 Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)
+### Simple Examples - One with mongoose and one with mongoose
+``` javascript
+//WITH MONGOOSE
+'use strict';
+var express = require('express'),
+    mongoose = require('mongoose'),
+    buildReq = require('../buildreq');
+    var app = express();
+mongoose.connect('mongodb://localhost/mean-dev');
+var blogSchema = mongoose.Schema({
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    title: {
+        type: String,
+        required: true,
+        trim: true,
+        default: "testtitle"
+    }
+});
+var Blog = mongoose.model('Blog', blogSchema);
+app.use(buildReq.query);
+app.get('/', function (req, res) {
+    res.json(req.queryParameters);
+})
+app.listen(3000, function () {
+    console.log("Express server listening on port 3000");
+});
+``` 
+``` javascript
+//WITHOUT MONGOOSE
+'use strict';
+var express = require('express'),
+    buildReq = require('../buildreq');
+buildReq.config({
+    query: {
+        schema: ['created', 'name', 'data', 'title']
+    }
+})
+var app = express();
+app.use(buildReq.query);
+app.get('/', function (req, res) {
+    res.json(req.queryParameters);
+})
+app.listen(3000, function () {
+    console.log("Express server listening on port 3000");
+});
+``` 
 
 ### What is Build Response,Error & Query?
 It is currently a Mongoose & Express dependent module. It can be used in a different ways. It is most useful when used as a middleware with expressjs  in conjunction with your api.
@@ -24,6 +73,7 @@ Currently underconstruction.
  -gulp 
  -testing
  -more docs
+ -build BUILDREQ Schema
 
 ### Contributing
 Looking for anyone that could have a use for this module in his or her daily life to help contribute .
@@ -81,7 +131,16 @@ node app.js
 
 ### HOW TO USE THE RESPONSE BUILDER
 ```javascript
-app.get('/', function(req, res) {       buildReq.response(res{method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:"no data"});        
+    app.get('/', function(req, res) {       
+        buildReq.response(
+            res,
+            {
+                method:'json',
+                query:req.queryParameters,
+                hostname:req.get('host')+req.path,
+                route:req.route,data:"no data"
+            }
+        );        
     })
 ```
 ### HOW IT WORKS IN CONJUNCTION - QUERY AND RESPONSE
