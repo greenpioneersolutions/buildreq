@@ -4,24 +4,24 @@ var mongoose = require('mongoose'),
     _ = require('lodash'),
     buildReq = require('../buildreq');
 buildReq.config({
-    response:{
-        method:"get",
-        data:{},
-        user:{},
-        count:0,
-        hostname:"",
-        type:"",
-        actions:{
-            prev:false,
-            next:false
+    response: {
+        method: "get",
+        data: {},
+        user: {},
+        count: 0,
+        hostname: "",
+        type: "",
+        actions: {
+            prev: false,
+            next: false
         },
-        delete:['error','itemPerPage','type']
+        delete: ['error', 'itemPerPage', 'type']
     },
-    query:{
+    query: {
         sort: "",
         limit: 10,
         select: "",
-        filter:{},
+        filter: {},
         populateId: "",
         populateItems: "",
         lean: false,
@@ -30,11 +30,16 @@ buildReq.config({
         gt: 1,
         lt: 0,
         in : [],
-        equal:"",
+        equal: "",
         errorMessage: "Unknown Value"
     }
 })
 mongoose.connect('mongodb://localhost/mean-dev');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback() {
+    console.log("connection");
+});
 var blogSchema = mongoose.Schema({
     created: {
         type: Date,
@@ -81,42 +86,55 @@ var usersSchema = mongoose.Schema({
 });
 
 var Blog = mongoose.model('Blog', blogSchema),
-    Users= mongoose.model('Users', usersSchema),
+    Users = mongoose.model('Users', usersSchema),
     app = express();
 
 app.use(buildReq.query);
 
 app.set('port', process.env.PORT || 3000);
 // View
-app.get('/', function(req, res) {
-    buildReq.response(res,{method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:"no data"});        
+app.get('/', function (req, res) {
+    buildReq.response(res, {
+        method: 'json',
+        query: req.queryParameters,
+        hostname: req.get('host') + req.path,
+        route: req.route,
+        data: "no data"
+    });
 })
-app.get('/blog', function(req, res) {
+app.get('/blog', function (req, res) {
     Blog.find(req.queryParameters.filter)
         .sort(req.queryParameters.sort)
         .select(req.queryParameters.select)
         .limit(req.queryParameters.limit)
         .skip(req.queryParameters.skip)
-        .exec(function(err,blogs) {
-            Blog.count(req.queryParameters.filter,function(err, totalCount){
-                buildReq.response(res,{count:totalCount,method:'json',query:req.queryParameters,hostname:req.get('host')+req.path,route:req.route,data:blogs});
+        .exec(function (err, blogs) {
+            Blog.count(req.queryParameters.filter, function (err, totalCount) {
+                buildReq.response(res, {
+                    count: totalCount,
+                    method: 'json',
+                    query: req.queryParameters,
+                    hostname: req.get('host') + req.path,
+                    route: req.route,
+                    data: blogs
+                });
             });
-            
+
         });
 });
 app.get('/create', function (req, res) {
     var blog = new Blog({});
     var user = new Users({});
     blog.save(function (err) {
-        if (err) return res.status(400) ;
+        if (err) return res.status(400);
         else user.save(function (err) {
-                if (err) return res.status(400);
-                else res.status(201);
-            })
+            if (err) return res.status(400);
+            else res.status(201);
+        })
     })
 
 });
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
 });
