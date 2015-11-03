@@ -1,12 +1,14 @@
 (function () {
     'use strict';
     var mongoose = require('mongoose'),
-        _ = require('lodash')
+        _ = require('lodash'),
+        express = require('express');
     module.exports = {
         query: query,
         response: response,
         error: error,
-        config: config
+        config: config,
+        routing:routing
     };
     var options = {
         response: {
@@ -42,8 +44,144 @@
             delete: [],
             mongoose: true,
             schema: []
+        },
+        routing:{
+            schema:true
         }
     };
+    var master ={}
+
+
+exports.isMongoId = function(req, res, next) {
+  if ((_.size(req.params) === 1) && (!mongoose.Types.ObjectId.isValid(_.values(req.params)[0]))) {
+      return res.status(500).send('Parameter passed is not a valid Mongo ObjectId');
+  }
+  next();
+};
+    function routing(app) { //Currently just a Sample - Still need to implement
+        var subRoutes = _.keys(mongoose.models);
+        var apps ={};
+        _.forEach(subRoutes,function(n){
+            apps[n] = express(); // the sub app
+            //ERROR middleware - still need to develop
+            apps[n].use(error)
+            //GET all
+            apps[n].get('/', function (req, res) {
+              mongoose.model([n])
+                .find(req.queryParameters.filter)
+                .sort(req.queryParameters.sort)
+                .select(req.queryParameters.select)
+                .limit(req.queryParameters.limit)
+                .skip(req.queryParameters.skip)
+                .exec(function (err, data) {
+                    mongoose.model([n]).count(req.queryParameters.filter, function (err, totalCount) {
+                        response(res, {
+                            count: totalCount,
+                            method: 'json',
+                            query: req.queryParameters,
+                            hostname: req.get('host') + req.path,
+                            route: req.route,
+                            data: data
+                        });
+                    });
+                });
+            })
+            //CREATE new
+            apps[n].post('/',function(req, res) {
+                var data = new mongoose.model([n])(req.body);
+                data.save(function(err) {
+                    if (err) {
+                      return res.status(500).json({
+                        error: 'Cannot save the data'
+                      });
+                    }
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: data
+                    });
+                });
+            })
+
+            //UPDATE by ID
+            apps[n].put('/:'+n+'Id',function(req, res) {
+                var data = req[apps[n]];
+
+                data = _.extend(data, req.body);
+
+
+                data.save(function(err) {
+                    if (err) {
+                        return res.status(500).json({
+                            error: 'Cannot update the data'
+                        });
+                    }
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: data
+                    });
+                });
+            })
+
+            //DELETE by ID
+            apps[n].delete('/:'+n+'Id',function(req, res) {
+                var data = req[apps[n]];
+                data.remove(function(err) {
+                    if (err) {
+                        return res.status(500).json({
+                            error: 'Cannot delete the data'
+                        });
+                    }
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: data
+                    });
+                });
+            })
+
+            //SHOW by ID
+            apps[n].get('/:'+n+'Id', function (req, res) {
+                response(res, {
+                    method: 'json',
+                    query: req.queryParameters,
+                    hostname: req.get('host') + req.path,
+                    route: req.route,
+                    data: req[apps[n]],
+                    type:n
+                });
+            })
+            //PARAM of the ID
+            apps[n].param(n+'Id', function(req, res, next, id) {
+                if ((!mongoose.Types.ObjectId.isValid(id))) {
+                      return res.status(500).send('Parameter passed is not a valid Mongo ObjectId');
+                }else{
+                    try{
+                        mongoose.model([n])
+                        .findOne({_id:id}, function(err, data) {
+                            if (err) return next(err);
+                            if (!data) return next(new Error('Failed to load data ' + id));
+                            req[apps[n]] = data;
+                            next();
+                        });
+                    }catch(err){
+                        console.log(err)
+                        next();
+                    }
+                }                
+            });
+            //Mount the routes
+            app.use('/api/v1/'+n, apps[n]);
+
+        })
+    }
 
     function error(err, req, res, next) { //Currently just a Sample - Still need to implement
         if (res.headersSent) {
@@ -64,6 +202,7 @@
         if (configs) {
             options = _.defaultsDeep(configs, options);
         }
+
     }
 
     function response(res, value) {
@@ -103,7 +242,7 @@
                 }
             })
         }
-
+        //need to update - known issue http://localhost:3000/api/v1/blog?limit=3
         function reload() {
             if (defaults.actions.reload) {
                 url = '';
@@ -156,7 +295,7 @@
         }
         response.data = value.data || defaults.data;
         response.user = value.user || defaults.user;
-        response.type = value.user || defaults.type;
+        response.type = value.type || defaults.type;
         response.error = value.error || {};
         response.success = true;
 
