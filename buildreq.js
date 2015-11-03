@@ -8,7 +8,7 @@
         response: response,
         error: error,
         config: config,
-        routing:routing
+        routing: routing
     };
     var options = {
         response: {
@@ -45,46 +45,47 @@
             mongoose: true,
             schema: []
         },
-        routing:{
-            schema:true
+        routing: {
+            schema: true
         }
     };
+
     function routing(app) { //Currently just a Sample - Still need to implement
         var subRoutes = _.keys(mongoose.models);
-        var apps ={};
-        _.forEach(subRoutes,function(n){
+        var apps = {};
+        _.forEach(subRoutes, function (n) {
             apps[n] = express(); // the sub app
             //ERROR middleware - still need to develop
             apps[n].use(error)
-            //GET all
+                //GET all
             apps[n].get('/', function (req, res) {
-              mongoose.model([n])
-                .find(req.queryParameters.filter)
-                .sort(req.queryParameters.sort)
-                .select(req.queryParameters.select)
-                .limit(req.queryParameters.limit)
-                .skip(req.queryParameters.skip)
-                .exec(function (err, data) {
-                    mongoose.model([n]).count(req.queryParameters.filter, function (err, totalCount) {
-                        response(res, {
-                            count: totalCount,
-                            method: 'json',
-                            query: req.queryParameters,
-                            hostname: req.get('host') + req.path,
-                            route: req.route,
-                            data: data
+                    mongoose.model([n])
+                        .find(req.queryParameters.filter)
+                        .sort(req.queryParameters.sort)
+                        .select(req.queryParameters.select)
+                        .limit(req.queryParameters.limit)
+                        .skip(req.queryParameters.skip)
+                        .exec(function (err, data) {
+                            mongoose.model([n]).count(req.queryParameters.filter, function (err, totalCount) {
+                                response(res, {
+                                    count: totalCount,
+                                    method: 'json',
+                                    query: req.queryParameters,
+                                    hostname: req.get('host') + req.path,
+                                    route: req.route,
+                                    data: data
+                                });
+                            });
                         });
-                    });
-                });
-            })
-            //CREATE new
-            apps[n].post('/',function(req, res) {
+                })
+                //CREATE new
+            apps[n].post('/', function (req, res) {
                 var data = new mongoose.model([n])(req.body);
-                data.save(function(err) {
+                data.save(function (err) {
                     if (err) {
-                      return res.status(500).json({
-                        error: 'Cannot save the data'
-                      });
+                        return res.status(500).json({
+                            error: 'Cannot save the data'
+                        });
                     }
                     response(res, {
                         method: 'json',
@@ -97,13 +98,13 @@
             })
 
             //UPDATE by ID
-            apps[n].put('/:'+n+'Id',function(req, res) {
+            apps[n].put('/:' + n + 'Id', function (req, res) {
                 var data = req[apps[n]];
 
                 data = _.extend(data, req.body);
 
 
-                data.save(function(err) {
+                data.save(function (err) {
                     if (err) {
                         return res.status(500).json({
                             error: 'Cannot update the data'
@@ -120,9 +121,9 @@
             })
 
             //DELETE by ID
-            apps[n].delete('/:'+n+'Id',function(req, res) {
+            apps[n].delete('/:' + n + 'Id', function (req, res) {
                 var data = req[apps[n]];
-                data.remove(function(err) {
+                data.remove(function (err) {
                     if (err) {
                         return res.status(500).json({
                             error: 'Cannot delete the data'
@@ -139,37 +140,39 @@
             })
 
             //SHOW by ID
-            apps[n].get('/:'+n+'Id', function (req, res) {
-                response(res, {
-                    method: 'json',
-                    query: req.queryParameters,
-                    hostname: req.get('host') + req.path,
-                    route: req.route,
-                    data: req[apps[n]],
-                    type:n
-                });
-            })
-            //PARAM of the ID
-            apps[n].param(n+'Id', function(req, res, next, id) {
+            apps[n].get('/:' + n + 'Id', function (req, res) {
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: req[apps[n]],
+                        type: n
+                    });
+                })
+                //PARAM of the ID
+            apps[n].param(n + 'Id', function (req, res, next, id) {
                 if ((!mongoose.Types.ObjectId.isValid(id))) {
-                      return res.status(500).send('Parameter passed is not a valid Mongo ObjectId');
-                }else{
-                    try{
+                    return res.status(500).send('Parameter passed is not a valid Mongo ObjectId');
+                } else {
+                    try {
                         mongoose.model([n])
-                        .findOne({_id:id}, function(err, data) {
-                            if (err) return next(err);
-                            if (!data) return next(new Error('Failed to load data ' + id));
-                            req[apps[n]] = data;
-                            next();
-                        });
-                    }catch(err){
+                            .findOne({
+                                _id: id
+                            }, function (err, data) {
+                                if (err) return next(err);
+                                if (!data) return next(new Error('Failed to load data ' + id));
+                                req[apps[n]] = data;
+                                next();
+                            });
+                    } catch (err) {
                         console.log(err)
                         next();
                     }
-                }                
+                }
             });
             //Mount the routes
-            app.use('/api/v1/'+n, apps[n]);
+            app.use('/api/v1/' + n, apps[n]);
 
         })
     }
