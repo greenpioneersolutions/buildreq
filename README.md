@@ -1,6 +1,6 @@
 # BuildREQ
 
-## R - Response - WORKING
+## R - Response - WORKING & Routing - Working
 ## E - Error - N/A
 ## Q - Query - WORKING
 
@@ -28,6 +28,10 @@ var blogSchema = mongoose.Schema({
 });
 var Blog = mongoose.model('Blog', blogSchema);
 app.use(buildReq.query);
+//builds a complete api based of shcemas
+// http://localhost:3000/api/v1/blog - GET , CREATE  - http://localhost:3000/api/v1/blog/:blogId - PUT DELETE GET
+// http://localhost:3000/api/v1/users - GET , CREATE  - http://localhost:3000/api/v1/users/:blogId - PUT DELETE GET
+buildReq.routing(app);
 app.get('/', function (req, res) {
     res.json(req.queryParameters);
 })
@@ -63,6 +67,9 @@ The most common used way is as a dynamic query builder as express middleware. It
 ### Response Builder
 The next common way to use this module is to have it build your api response so that you have a consistent format. This response is dynamic enough right off the bat to do logic based on actions you wish to give your frontend. Great thing is if you don’t like some of the fields you can delete them in the configs. 
 
+### Routing Builder
+It is a optional routing builder . what it does is it creates CRUD routes and interacts with the database based off of the shcema from mongoose. More to come on it later.
+
 ###  Error Builder 
 Currently underconstruction.
 
@@ -71,9 +78,12 @@ Currently underconstruction.
  -Add Refactor
  -Add Get Production Ready
  -gulp 
- -testing
+ -testing - super agent
  -more docs
  -build BUILDREQ Schema
+ -add chalk 
+ - promises bluebird
+ -debug
 
 ### Contributing
 Looking for anyone that could have a use for this module in his or her daily life to help contribute .

@@ -1,8 +1,10 @@
-### 0.0.4 (2015-10-30)
+
+
+### 0.0.4 (2015-11-2)
 
 #### Features
 
-* **Custom Schema:**  makes mongoose not needed ([b43ea1b](https://github.com/GreenPioneer/buildreq/commit/b43ea1b8a3798261f00514507a09c77a90d5665a))
+* **Dynamic Api based off Schema:**  makes it so no coding needed for a full api(CRUD) ([baa1617](https://github.com/GreenPioneer/buildreq/commit/dcde3e48dc44da3a31c6fac6e20ed36111d2d3cb))
 
 ### 0.0.3 (2015-10-29)
 
