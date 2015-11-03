@@ -15,7 +15,7 @@ buildReq.config({
             prev: false,
             next: false
         },
-        delete: ['error', 'itemPerPage', 'type']
+        delete: ['error','user']
     },
     query: {
         sort: "",
@@ -32,8 +32,12 @@ buildReq.config({
         in : [],
         equal: "",
         errorMessage: "Unknown Value"
+    },
+    routing:{
+        schema:true
     }
 })
+
 mongoose.connect('mongodb://localhost/mean-dev');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -89,8 +93,12 @@ var Blog = mongoose.model('Blog', blogSchema),
     Users = mongoose.model('Users', usersSchema),
     app = express();
 
+//order matters
 app.use(buildReq.query);
-
+//builds a complete api based of shcemas
+// http://localhost:3000/api/v1/blog - GET , CREATE  - http://localhost:3000/api/v1/blog/:blogId - PUT DELETE GET
+// http://localhost:3000/api/v1/users - GET , CREATE  - http://localhost:3000/api/v1/users/:blogId - PUT DELETE GET
+buildReq.routing(app);
 app.set('port', process.env.PORT || 3000);
 // View
 app.get('/', function (req, res) {
