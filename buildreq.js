@@ -49,15 +49,6 @@
             schema:true
         }
     };
-    var master ={}
-
-
-exports.isMongoId = function(req, res, next) {
-  if ((_.size(req.params) === 1) && (!mongoose.Types.ObjectId.isValid(_.values(req.params)[0]))) {
-      return res.status(500).send('Parameter passed is not a valid Mongo ObjectId');
-  }
-  next();
-};
     function routing(app) { //Currently just a Sample - Still need to implement
         var subRoutes = _.keys(mongoose.models);
         var apps ={};
