@@ -1,4 +1,8 @@
+### 0.0.5 & 0.0.6 (2015-11-5)
 
+#### Features
+
+* **Updated the dynamic Api :** to expose some of mongoose
 
 ### 0.0.4 (2015-11-2)
 

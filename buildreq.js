@@ -98,7 +98,7 @@
             })
 
             //UPDATE by ID
-            apps[n].put('/:' + n + 'Id', function (req, res) {
+            apps[n].put('/id/:' + n + 'Id', function (req, res) {
                 var data = req[apps[n]];
 
                 data = _.extend(data, req.body);
@@ -121,7 +121,7 @@
             })
 
             //DELETE by ID
-            apps[n].delete('/:' + n + 'Id', function (req, res) {
+            apps[n].delete('/id/:' + n + 'Id', function (req, res) {
                 var data = req[apps[n]];
                 data.remove(function (err) {
                     if (err) {
@@ -140,7 +140,7 @@
             })
 
             //SHOW by ID
-            apps[n].get('/:' + n + 'Id', function (req, res) {
+            apps[n].get('/id/:' + n + 'Id', function (req, res) {
                     response(res, {
                         method: 'json',
                         query: req.queryParameters,
@@ -171,6 +171,41 @@
                     }
                 }
             });
+
+            //show fields
+            apps[n].get('/fields/', function (req, res) {
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: _.keys(mongoose.model([n]).schema.tree),
+                        type: n
+                    });
+                })
+
+            //options
+            apps[n].get('/options/', function (req, res) {
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: _.keys(mongoose.model([n]).schema.options),
+                        type: n
+                    });
+                })
+            //_indexes
+            apps[n].get('/_indexes/', function (req, res) {
+                    response(res, {
+                        method: 'json',
+                        query: req.queryParameters,
+                        hostname: req.get('host') + req.path,
+                        route: req.route,
+                        data: _.keys(mongoose.model([n]).schema._indexes),
+                        type: n
+                    });
+                })
             //Mount the routes
             app.use('/api/v1/' + n, apps[n]);
 
