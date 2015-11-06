@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     express = require('express'),
     _ = require('lodash'),
     buildReq = require('../buildreq');
+    console.log(buildReq)
 buildReq.config({
     response: {
         method: "get",
