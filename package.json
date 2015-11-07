@@ -1,10 +1,10 @@
 {
     "name": "buildreq",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "buildreq",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "standard"
     },
     "repository": {
         "type": "git",
@@ -34,7 +34,13 @@
     "dependencies": {
         "express": "^4.13.3",
         "lodash": "^3.10.1",
-        "mongoose": "^4.1.8"
+        "mongoose": "^4.1.8",
+        "chalk": "^1.1.1"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "standard": "^5.3.1"
+    },
+    "engines": {
+        "node": ">= 0.10.0"
+    }
 }
