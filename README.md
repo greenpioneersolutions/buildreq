@@ -83,7 +83,7 @@ build.routing(app)
 Configs
 ``` javascript
 build.config({
-  response: {
+  routing: {
   //configs go here
   }
 })
@@ -111,7 +111,7 @@ app.use(build.query())
 Configs
 ``` javascript
 build.config({
-  response: {
+  query: {
   //configs go here
   }
 })
