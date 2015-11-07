@@ -1,1 +1,1 @@
-require('./buildreq');
+require('./buildreq')
