@@ -78,6 +78,17 @@ build.routing(app)
 // http://localhost:3000/api/v1/blog/fields/ - GET | GETS ALL FIELDS IN SCHEMA
 // http://localhost:3000/api/v1/blog/options/ - GET | GETS ALL OPTIONS IN SCHEMA
 // http://localhost:3000/api/v1/blog/_indexes/ - GET | GETS ALL INDEXES IN SCHEMA
+
+//You Can Inject mongoose in your routing if need be
+//You can also wait for the connection to openbefore injecting it
+var mongoose = require('mongoose')
+
+  mongoose.connection.onOpen(function(){
+    //console.log(mongoose.connection)
+    console.log('open')
+    //console.log(mongoose.models)
+    build.routing(app,mongoose)
+  })
 ``` 
 
 Configs

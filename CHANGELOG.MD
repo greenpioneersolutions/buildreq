@@ -1,3 +1,9 @@
+### 0.1.1(2015-11-5)
+
+#### Features
+
+* **Updated the Dynamic Routing :** to allow mongoose to be injected
+
 ### 0.0.5 & 0.0.6 (2015-11-5)
 
 #### Features

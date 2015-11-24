@@ -1,7 +1,7 @@
 'use strict'
 var mongoose = require('mongoose')
 var express = require('express')
-var build = require('../buildreq')({console: false})
+var build = require('../index.js')({console: false})
 
 // var build = buildreq({console: false})
 build.config({

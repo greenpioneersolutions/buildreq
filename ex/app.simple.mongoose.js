@@ -1,7 +1,7 @@
 'use strict'
 var express = require('express')
 var mongoose = require('mongoose')
-var build = require('../buildreq')()
+var build = require('../index.js')({console: false})
 var app = express()
 mongoose.connect('mongodb://localhost/mean-dev')
 var blogSchema = mongoose.Schema({

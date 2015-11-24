@@ -1,6 +1,6 @@
 'use strict'
 var express = require('express')
-var build = require('../buildreq')()
+var build = require('../index.js')({console: false})
 build.config({
   query: {
     schema: ['created', 'name', 'data', 'title']
