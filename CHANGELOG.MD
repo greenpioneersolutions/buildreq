@@ -1,4 +1,11 @@
-### 0.1.1(2015-11-5)
+### 0.1.2(2015-11-20)
+
+#### Features
+
+* **Updated the Url Routing :** to allow customization of the default url route
+* **Updated the Urls :** using keyword task on some utility calls
+
+### 0.1.1(2015-11-19)
 
 #### Features
 

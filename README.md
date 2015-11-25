@@ -103,7 +103,7 @@ build.config({
 Key | Description | Default Value
 --- | --- | ---
 `schema` | uses mongoose schema by default - N/A taken out for now | []
-
+`url` | change the default url that the routing is built with | '/api/v1/'
 
 ## E - Error - N/A
 ``` javascript

@@ -65,7 +65,7 @@
       return {
         options: this.options,
         app: app,
-        mongoose:mongoose||{},
+        mongoose:mongoose||null,
         response: this.response,
         error: this.error
       }

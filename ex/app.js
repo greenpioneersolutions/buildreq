@@ -1,9 +1,7 @@
 'use strict'
 var mongoose = require('mongoose')
 var express = require('express')
-var build = require('../index.js')({console: false})
-
-// var build = buildreq({console: false})
+var build = require('../index.js')({console: true})
 build.config({
   response: {
     method: 'get',
@@ -35,7 +33,8 @@ build.config({
     errorMessage: 'Unknown Value'
   },
   routing: {
-    schema: true
+    schema: true,
+    url: "/api/v8/"
   }
 })
 mongoose.connect('mongodb://localhost/mean-dev')
