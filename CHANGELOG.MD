@@ -1,3 +1,10 @@
+### 0.1.3(2015-11-28)
+
+#### Features
+
+* **Mounting :** to allow customization to automatically mount for you. Return all mounts now
+* **Routing :** added Body Parser and Method Override to Routing
+
 ### 0.1.2(2015-11-20)
 
 #### Features

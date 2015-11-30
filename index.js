@@ -25,7 +25,7 @@
 
   function Build (options) {
     if (options) {
-      this.options = _.assign(functions.options, options)
+      this.options = _.merge(functions.options, options)
       this.options.query.mongoose = this.mongooseCheck()
       if (this.options.console)console.log(chalk.green('Custom:Configs Added On Build'))
     } else {
@@ -60,12 +60,12 @@
     }
     return functions.response(setup.bind(this))
   }
-  Build.prototype.routing = function (app,mongoose) {
+  Build.prototype.routing = function (app, mongoose) {
     function setup () {
       return {
         options: this.options,
         app: app,
-        mongoose:mongoose||null,
+        mongoose: mongoose || null,
         response: this.response,
         error: this.error
       }
@@ -74,7 +74,7 @@
   }
   Build.prototype.config = function (data) {
     if (data) {
-      this.options = _.assign(this.options, data)
+      this.options = _.merge(this.options, data)
       this.options.query.mongoose = this.mongooseCheck()
       if (this.options.console)console.log(chalk.green('Custom:Configs Added On Config'))
       return this.query(this.options)
