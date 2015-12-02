@@ -1,3 +1,21 @@
+### 0.2.0(2015-12-2)
+
+#### Features
+* **Where :** to allow customizations
+* **gt:** Working Config with WHERE
+* **gte:** Working Config with WHERE
+* **lte:** Working Config with WHERE
+* **lt:** Working Config with WHERE
+* **in:** Working Config with WHERE
+* **ne:** Working Config with WHERE
+* **nin:** Working Config with WHERE
+* **regex:** Working Config with WHERE
+* **options:** Working Config with WHERE
+* **size:** Working Config with WHERE
+* **all:** Working Config with WHERE
+* **equals:** Working Config with WHERE
+
+
 ### 0.1.3(2015-11-28)
 
 #### Features
@@ -34,7 +52,7 @@
 
 #### Features
 
-* **Clean up:**  Code and added min.js ([d2ac5ff](https://github.com/GreenPioneer/buildreq/commit/86d8ffeb3123e35eb1ebd8fd0be43ee94bfeb27a))
+* **Clean up:**  Code ([d2ac5ff](https://github.com/GreenPioneer/buildreq/commit/86d8ffeb3123e35eb1ebd8fd0be43ee94bfeb27a))
 
 ### 0.0.2 (2015-10-28)
 

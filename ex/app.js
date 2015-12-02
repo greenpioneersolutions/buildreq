@@ -25,16 +25,11 @@ build.config({
     populateItems: '',
     lean: false,
     skip: 0,
-    where: '',
-    gt: 1,
-    lt: 0,
-    in: [],
-    equal: '',
     errorMessage: 'Unknown Value'
   },
   routing: {
     schema: true,
-    url: "/api/v8/"
+    url: '/api/v8/'
   }
 })
 mongoose.connect('mongodb://localhost/mean-dev')
@@ -111,6 +106,7 @@ app.get('/', function (req, res) {
 })
 app.get('/blog', function (req, res) {
   Blog.find(req.queryParameters.filter)
+    .where(req.queryParameters.where)
     .sort(req.queryParameters.sort)
     .select(req.queryParameters.select)
     .limit(req.queryParameters.limit)

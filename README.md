@@ -89,6 +89,20 @@ var mongoose = require('mongoose')
     //console.log(mongoose.models)
     build.routing(app,mongoose)
   })
+
+
+// OR you can  build it on your end by setting the config to not build
+var build = require('buildreq')(
+    routing: {
+        schema: true,
+        url: '/api/v1/',
+        build: false
+    }
+)
+
+_.forEach(build.routing(app, mongoose), function (m) {
+  app.use(m.route, m.app)
+})
 ``` 
 
 Configs
@@ -140,14 +154,35 @@ Key | Description | Default Value
 `lean` | uses empty string by default | `''`
 `skip` | uses empty string by default | `0`
 `where` | uses empty string by default | `''`
-`gt` | uses 1 by default for GreaterThan | `1`
-`lt` | uses 1 by default for LessThan | `0`
-`in` | uses 1 by default for InThan | `[]`
-`equals` | uses empty string when using equals | `''`
+`gt:` | uses where for GreaterThan | `false`
+`gte:` | uses where for GreaterThanEqual | `false`
+`lte:` | uses where for LessThanEqual | `false`
+`lt:` | uses where for LessThan | `false`
+`in:` | uses where for IN array | `false`
+`ne:` | uses where for NE Not Equal | `false`
+`nin:` | uses where for NIN not in array | `false`
+`regex:` | uses where with options for regex | `false`
+`options:` | uses where regex required | `false`
+`size:` | uses where for SIZE of array | `false`
+`all:` | uses where for ALL | `false`
+`equals:` | uses where for EQUALS | `false`
 `errorMessage` | uses string by default when user passes bad value | `Unknown Value`
 `delete` | uses empty array by default | `[]`
 `mongoose` | uses boolean to use mongoose to to have custom | `true`
 `schema` | uses empty [] if you dont use a custom schema | `[]`
+
+
+Key | Example urls
+--- | ---
+gt & lt | http://localhost:3000/api/v1/campaigns?where=created&gt=2015-11-17&lt=2015-12-30
+equals | http://localhost:3000/api/v1/campaigns?where=email&equals=john@greenpioneersolutions.com
+in | http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com
+ne | http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
+nin | http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com
+regex & options| http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
+size | http://localhost:3000/api/v1/campaigns?where=emails&size=2
+all | http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
+
 
 Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)
 ### Simple Examples - One with mongoose and one with mongoose
