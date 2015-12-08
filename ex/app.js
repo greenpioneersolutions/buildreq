@@ -18,7 +18,7 @@ build.config({
   },
   query: {
     sort: '',
-    limit: 10,
+    limit: 30,
     select: '',
     filter: {},
     populateId: '',
@@ -29,10 +29,10 @@ build.config({
   },
   routing: {
     schema: true,
-    url: '/api/v8/'
+    url: '/api/v1/'
   }
 })
-mongoose.connect('mongodb://localhost/mean-dev')
+mongoose.connect('mongodb://localhost/mean-dev', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function callback () {
@@ -96,6 +96,11 @@ build.routing(app)
 app.set('port', process.env.PORT || 3000)
 // View
 app.get('/', function (req, res) {
+  res.sendFile('index.html', {
+    root: __dirname
+  })
+})
+app.get('/response', function (req, res) {
   build.response(res, {
     method: 'json',
     query: req.queryParameters,

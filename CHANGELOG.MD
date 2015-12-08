@@ -1,3 +1,14 @@
+### 0.3.0(2015-12-7)
+
+#### Features
+* **Promises :** Implemented with bluebird
+* **Added :** count route 
+* **Added :** where .find 
+* **Added :** Helmet for security 
+* **Added :** Compression for speed  
+* **Updated :** create route to use mongoose.create()
+* **Updated :** examples
+
 ### 0.2.0(2015-12-2)
 
 #### Features

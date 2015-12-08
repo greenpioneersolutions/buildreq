@@ -165,6 +165,7 @@ Key | Description | Default Value
 `options:` | uses where regex required | `false`
 `size:` | uses where for SIZE of array | `false`
 `all:` | uses where for ALL | `false`
+`find:` | uses where for FIND | `false`
 `equals:` | uses where for EQUALS | `false`
 `errorMessage` | uses string by default when user passes bad value | `Unknown Value`
 `delete` | uses empty array by default | `[]`
@@ -182,6 +183,7 @@ nin | http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpionee
 regex & options| http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
 size | http://localhost:3000/api/v1/campaigns?where=emails&size=2
 all | http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
+find | http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
 
 
 Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)

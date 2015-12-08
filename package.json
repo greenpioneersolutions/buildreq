@@ -1,48 +1,55 @@
 {
-    "name": "buildreq",
-    "version": "0.2.0",
-    "description": "buildreq",
-    "main": "index.js",
-    "scripts": {
-        "test": "standard"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/GreenPioneer/buildreq.git"
-    },
-    "keywords": [
-        "GreenPioneer",
-        "express",
-        "mongoose",
-        "api"
-    ],
-    "contributors": [{
-        "name": "GreenPioneer",
-        "email": "green@greenpioneersolutions.com",
-        "web": "https://github.com/GreenPioneer"
-    }],
-    "maintainers": [{
-        "name": "GreenPioneer",
-        "web": "https://github.com/GreenPioneer?tab=members"
-    }],
-    "author": "Green Pioneer <green@greenpioneersolutions.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/GreenPioneer/buildreq/issues"
-    },
-    "homepage": "https://github.com/GreenPioneer/buildreq",
-    "dependencies": {
-        "express": "^4.13.3",
-        "lodash": "^3.10.1",
-        "mongoose": "^4.1.8",
-        "chalk": "^1.1.1",
-        "body-parser": "^1.14.1",
-        "method-override": "^2.3.5"
-    },
-    "devDependencies": {
-        "standard": "^5.3.1"
-    },
-    "engines": {
-        "node": ">= 0.10.0"
+  "name": "buildreq",
+  "version": "0.3.0",
+  "description": "buildreq",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GreenPioneer/buildreq.git"
+  },
+  "keywords": [
+    "GreenPioneer",
+    "express",
+    "mongoose",
+    "api"
+  ],
+  "contributors": [
+    {
+      "name": "GreenPioneer",
+      "email": "green@greenpioneersolutions.com",
+      "web": "https://github.com/GreenPioneer"
     }
+  ],
+  "maintainers": [
+    {
+      "name": "GreenPioneer",
+      "web": "https://github.com/GreenPioneer?tab=members"
+    }
+  ],
+  "author": "Green Pioneer <green@greenpioneersolutions.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GreenPioneer/buildreq/issues"
+  },
+  "homepage": "https://github.com/GreenPioneer/buildreq",
+  "dependencies": {
+    "bluebird": "^3.0.6",
+    "body-parser": "^1.14.1",
+    "chalk": "^1.1.1",
+    "compression": "^1.6.0",
+    "express": "^4.13.3",
+    "helmet": "^0.15.0",
+    "lodash": "^3.10.1",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.1.8"
+  },
+  "devDependencies": {
+    "standard": "^5.3.1"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  }
 }
