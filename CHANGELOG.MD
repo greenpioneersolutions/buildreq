@@ -1,3 +1,11 @@
+### 0.4.0(2015-12-13)
+
+#### Features
+* **Added :** Aggregate Framework(Mongodb) to use for query builder
+* **Added :** Aggregate Framework(Mongodb) to use for routing builder
+* **Added :** Middleware options to the routing builder( auth , noauth & all)
+* **Added :** Routing to handle callbacks
+
 ### 0.3.0(2015-12-7)
 
 #### Features

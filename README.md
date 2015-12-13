@@ -71,10 +71,20 @@ var blogSchema = mongoose.Schema({
   }
 })
 Blog = mongoose.model('Blog', blogSchema)
-build.routing(app)
+//var route = build.routing(app)
+//console.log(route)
+//or
+build.routing({
+    app:app,
+    mongoose: mongoose
+},function(error,data){
+    console.log(data)
+})
+
 // Routes that will be created for you
 // http://localhost:3000/api/v1/blog - GET,POST | GETALL - CREATE 
 // http://localhost:3000/api/v1/blog/id/:blogId - PUT,DELETE,GET | UPDATE DELETE VIEWONE
+// http://localhost:3000/api/v1/blog/aggregate - GET | USE AGGREGATION FRAMEWORK
 // http://localhost:3000/api/v1/blog/fields/ - GET | GETS ALL FIELDS IN SCHEMA
 // http://localhost:3000/api/v1/blog/options/ - GET | GETS ALL OPTIONS IN SCHEMA
 // http://localhost:3000/api/v1/blog/_indexes/ - GET | GETS ALL INDEXES IN SCHEMA
@@ -119,6 +129,8 @@ Key | Description | Default Value
 `schema` | uses mongoose schema by default - N/A taken out for now | []
 `url` | change the default url that the routing is built with | '/api/v1/'
 `build` | change the default to false to manually mount the routing | 'true'
+`middleware` | change the default to false to manually mount the routing | `{ auth: [], noauth: [], all: [] }`
+
 
 ## E - Error - N/A
 ``` javascript
@@ -167,6 +179,7 @@ Key | Description | Default Value
 `all:` | uses where for ALL | `false`
 `find:` | uses where for FIND | `false`
 `equals:` | uses where for EQUALS | `false`
+`aggregate:`| uses Aggregation Framework with object you send| `false`
 `errorMessage` | uses string by default when user passes bad value | `Unknown Value`
 `delete` | uses empty array by default | `[]`
 `mongoose` | uses boolean to use mongoose to to have custom | `true`
@@ -175,16 +188,17 @@ Key | Description | Default Value
 
 Key | Example urls
 --- | ---
-gt & lt | http://localhost:3000/api/v1/campaigns?where=created&gt=2015-11-17&lt=2015-12-30
-equals | http://localhost:3000/api/v1/campaigns?where=email&equals=john@greenpioneersolutions.com
-in | http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com
-ne | http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
-nin | http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com
-regex & options| http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
-size | http://localhost:3000/api/v1/campaigns?where=emails&size=2
-all | http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
-find | http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
-
+gt & lt | `http://localhost:3000/api/v1/campaigns?where=created&gt=2015-11-17&lt=2015-12-30`
+equals | `http://localhost:3000/api/v1/campaigns?where=email&equals=john@greenpioneersolutions.com`
+in | `http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com`
+ne | `http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com`
+nin | `http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com`
+regex & options| `http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E`
+size | `http://localhost:3000/api/v1/campaigns?where=emails&size=2`
+all | `http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com`
+find | `http://localhost:3000/api/v1/campaigns?where=email&find=shawn@`
+aggregate | `http://localhost:3000/api/v1/campaigns/task/aggregated?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount`
+  
 
 Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)
 ### Simple Examples - One with mongoose and one with mongoose

@@ -60,14 +60,24 @@
     }
     return functions.response(setup.bind(this))
   }
-  Build.prototype.routing = function (app, mongoose) {
+  Build.prototype.routing = function (params, callback) {
     function setup () {
+      var mongoose = params.mongoose || require('mongoose')
+      mongoose.Promise = require('bluebird')
+      var middlewareRouting = {
+        auth: [],
+        noauth: [],
+        all: []
+      }
+      middlewareRouting = _.merge(middlewareRouting, params.middleware)
       return {
         options: this.options,
-        app: app,
+        app: params.app,
         mongoose: mongoose || null,
+        middleware: middlewareRouting,
         response: this.response,
-        error: this.error
+        error: this.error,
+        callback: callback
       }
     }
     return functions.routing(setup.bind(this))

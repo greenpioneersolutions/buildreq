@@ -89,10 +89,39 @@ var app = express()
 
 // order matters
 app.use(build.query())
+var testTime = function (req, res, next) {
+  console.log(req.originalUrl + ' noauth')
+  next()
+}
+var testParameters = function (req, res, next) {
+  console.log(req.originalUrl + ' auth')
+  next()
+}
+var testboth = function (req, res, next) {
+  console.log(req.originalUrl + ' ALL')
+  next()
+}
 // builds a complete api based of shcemas
 // http://localhost:3000/api/v1/blog - GET , CREATE  - http://localhost:3000/api/v1/blog/:blogId - PUT DELETE GET
 // http://localhost:3000/api/v1/users - GET , CREATE  - http://localhost:3000/api/v1/users/:blogId - PUT DELETE GET
-build.routing(app)
+var middle = {
+  auth: [testParameters],
+  noauth: [testTime],
+  all: [testboth]
+}
+//
+// var routeResponse = build.routing({
+//   app: app,
+//   middleware: middle
+// })
+// console.log(routeResponse)
+build.routing({
+  app: app,
+  middleware: middle
+}, function (error, data) {
+  if (error) console.log(error)
+// console.log(data)
+})
 app.set('port', process.env.PORT || 3000)
 // View
 app.get('/', function (req, res) {
