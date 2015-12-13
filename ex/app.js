@@ -117,7 +117,8 @@ var middle = {
 // console.log(routeResponse)
 build.routing({
   app: app,
-  middleware: middle
+  middleware: middle,
+  remove: ['users']
 }, function (error, data) {
   if (error) console.log(error)
 // console.log(data)

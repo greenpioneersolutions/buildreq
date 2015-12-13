@@ -130,6 +130,7 @@ Key | Description | Default Value
 `url` | change the default url that the routing is built with | '/api/v1/'
 `build` | change the default to false to manually mount the routing | 'true'
 `middleware` | change the default to false to manually mount the routing | `{ auth: [], noauth: [], all: [] }`
+`remove` | remove mongoose models by name if you dont want them routed ex `['Users'] | `[]`
 
 
 ## E - Error - N/A

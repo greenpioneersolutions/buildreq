@@ -62,6 +62,7 @@
   }
   Build.prototype.routing = function (params, callback) {
     function setup () {
+      var consoleReady = this.options.console
       var mongoose = params.mongoose || require('mongoose')
       mongoose.Promise = require('bluebird')
       var middlewareRouting = {
@@ -70,14 +71,26 @@
         all: []
       }
       middlewareRouting = _.merge(middlewareRouting, params.middleware)
+      var remove = params.remove || []
+      var models = _.remove(_.keys(mongoose.models), function (n) {
+        var found = true
+        _.forEach(remove, function (r) {
+          if (n === _.capitalize(r)) {
+            if (consoleReady)console.log(chalk.green('Routing - Remove Model:' + r))
+            found = false
+          }
+        })
+        return found
+      })
       return {
         options: this.options,
         app: params.app,
-        mongoose: mongoose || null,
+        mongoose: mongoose,
         middleware: middlewareRouting,
         response: this.response,
         error: this.error,
-        callback: callback
+        callback: callback,
+        models: models
       }
     }
     return functions.routing(setup.bind(this))

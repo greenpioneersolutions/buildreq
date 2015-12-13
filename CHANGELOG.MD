@@ -1,3 +1,10 @@
+### 0.4.1(2015-12-13)
+
+#### Features
+* **Added :** Remove Model feature to routing
+* **Updated :** The options for how routing is called
+
+
 ### 0.4.0(2015-12-13)
 
 #### Features
