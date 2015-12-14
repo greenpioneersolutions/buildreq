@@ -1,4 +1,9 @@
-### 0.4.2(2015-12-13)
+### 0.4.3(2015-12-15)
+
+#### Features
+* **Updated :** Routing /task/fields to response with instances & isRequired which will help to make your frontend dynamic
+
+### 0.4.2(2015-12-14)
 
 #### Features
 * **Added :** error handling for the routing configurations
