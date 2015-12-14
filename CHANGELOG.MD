@@ -1,4 +1,9 @@
-### 0.4.3(2015-12-15)
+### 0.4.31(2015-12-14)
+
+#### Bug Fix
+* **Routing :** Fields Call - delete had dynamic failures
+
+### 0.4.3(2015-12-14)
 
 #### Features
 * **Updated :** Routing /task/fields to response with instances & isRequired which will help to make your frontend dynamic
