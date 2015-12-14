@@ -1,3 +1,8 @@
+### 0.4.33(2015-12-14)
+
+#### Bug Fix
+* **Routing :** Populate naming error 
+
 ### 0.4.32(2015-12-14)
 
 #### Bug Fix
