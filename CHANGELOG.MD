@@ -1,3 +1,8 @@
+### 0.4.32(2015-12-14)
+
+#### Bug Fix
+* **Routing :** Populate not called 
+
 ### 0.4.31(2015-12-14)
 
 #### Bug Fix
