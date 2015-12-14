@@ -1,3 +1,11 @@
+### 0.4.2(2015-12-13)
+
+#### Features
+* **Added :** error handling for the routing configurations
+
+#### Bug Fix
+* **Routing :** Promise.each error fixed
+
 ### 0.4.1(2015-12-13)
 
 #### Features

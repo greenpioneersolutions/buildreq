@@ -63,15 +63,39 @@
   Build.prototype.routing = function (params, callback) {
     function setup () {
       var consoleReady = this.options.console
-      var mongoose = params.mongoose || require('mongoose')
-      mongoose.Promise = require('bluebird')
-      var middlewareRouting = {
-        auth: [],
-        noauth: [],
-        all: []
+      // console.log(mongoose.models.Blog.schema.paths.hours.isRequired) Look into checking required to validate
+      try {
+        var mongoose = params.mongoose || require('mongoose')
+      } catch(err) {
+        var mongoose = require('mongoose')
+      }finally {
+        mongoose.Promise = require('bluebird')
       }
-      middlewareRouting = _.merge(middlewareRouting, params.middleware)
-      var remove = params.remove || []
+
+      try {
+        var middlewareRouting = _.merge({
+          auth: [],
+          noauth: [],
+          all: []
+        }, params.middleware)
+      } catch(err) {
+        var middlewareRouting = {
+          auth: [],
+          noauth: [],
+          all: []
+        }
+      }
+
+      try {
+        var remove = params.remove || []
+      } catch(err) {
+        var remove = []
+      }
+      try {
+        var app = params.app || false
+      } catch(err) {
+        var app = false
+      }
       var models = _.remove(_.keys(mongoose.models), function (n) {
         var found = true
         _.forEach(remove, function (r) {
@@ -84,7 +108,7 @@
       })
       return {
         options: this.options,
-        app: params.app,
+        app: app,
         mongoose: mongoose,
         middleware: middlewareRouting,
         response: this.response,
