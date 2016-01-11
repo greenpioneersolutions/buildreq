@@ -5,6 +5,7 @@
 [![dependencies](https://david-dm.org/greenpioneer/buildreq.svg)](https://david-dm.org/greenpioneer/buildreq)
 [![npm-issues](https://img.shields.io/github/issues/GreenPioneer/buildreq.svg)](https://github.com/GreenPioneer/buildreq/issues)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![js-standard-style](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)
 
 [npm-image]: https://img.shields.io/npm/v/buildreq.svg?style=flat
 [npm-url]: https://npmjs.org/package/buildreq

@@ -65,11 +65,11 @@
       var consoleReady = this.options.console
       // console.log(mongoose.models.Blog.schema.paths.hours.isRequired) Look into checking required to validate
       try {
-        var mongoose = params.mongoose || require('mongoose')
+        var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
       } catch(err) {
-        var mongoose = require('mongoose')
+        var mongoose = require('bluebird').promisifyAll(require('mongoose'))
       }finally {
-        mongoose.Promise = require('bluebird')
+        // mongoose.Promise = require('bluebird')
       }
 
       try {
@@ -88,6 +88,7 @@
 
       try {
         var remove = params.remove || []
+      // added defaults 
       } catch(err) {
         var remove = []
       }
