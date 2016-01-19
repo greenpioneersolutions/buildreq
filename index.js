@@ -34,9 +34,18 @@
       if (this.options.console)console.log(chalk.blue('Default:Configs Added On Build'))
     }
   }
-  Build.prototype.query = function (options) {
+  Build.prototype.query = function (params) {
+    try {
+      var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
+    } catch (err) {
+      mongoose = require('bluebird').promisifyAll(require('mongoose'))
+    } finally {
+      mongoose.Promise = require('bluebird')
+    }
+
     function setup () {
       return {
+        mongoose: mongoose,
         options: this.options
       }
     }
@@ -66,10 +75,10 @@
       // console.log(mongoose.models.Blog.schema.paths.hours.isRequired) Look into checking required to validate
       try {
         var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
-      } catch(err) {
-        var mongoose = require('bluebird').promisifyAll(require('mongoose'))
-      }finally {
-        // mongoose.Promise = require('bluebird')
+      } catch (err) {
+        mongoose = require('bluebird').promisifyAll(require('mongoose'))
+      } finally {
+        mongoose.Promise = require('bluebird')
       }
 
       try {
@@ -78,8 +87,8 @@
           noauth: [],
           all: []
         }, params.middleware)
-      } catch(err) {
-        var middlewareRouting = {
+      } catch (err) {
+        middlewareRouting = {
           auth: [],
           noauth: [],
           all: []
@@ -88,14 +97,13 @@
 
       try {
         var remove = params.remove || []
-      // added defaults 
-      } catch(err) {
-        var remove = []
+      } catch (err) {
+        remove = []
       }
       try {
         var app = params.app || false
-      } catch(err) {
-        var app = false
+      } catch (err) {
+        app = false
       }
       var models = _.remove(_.keys(mongoose.models), function (n) {
         var found = true

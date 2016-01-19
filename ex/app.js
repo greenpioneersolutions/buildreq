@@ -88,7 +88,7 @@ var Users = mongoose.model('Users', usersSchema)
 var app = express()
 
 // order matters
-app.use(build.query())
+app.use(build.query({mongoose: mongoose}))
 var testTime = function (req, res, next) {
   console.log(req.originalUrl + ' noauth')
   next()

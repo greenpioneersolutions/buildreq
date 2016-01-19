@@ -1,3 +1,17 @@
+### 0.4.42(2015-12-14)
+
+#### Bug Fix
+* **Update Query :** Inject Mongoose to ensure models make it to the query
+
+### 0.4.41(2015-12-14)
+
+#### Bug Fix
+* **Remove :** Async
+### 0.4.4(2015-12-14)
+
+#### Bug Fix
+* **Add :** Async
+
 ### 0.4.33(2015-12-14)
 
 #### Bug Fix
