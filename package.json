@@ -1,6 +1,6 @@
 {
   "name": "buildreq",
-  "version": "0.4.42",
+  "version": "0.4.43",
   "description": "buildreq",
   "main": "index.js",
   "scripts": {

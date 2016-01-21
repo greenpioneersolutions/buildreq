@@ -146,6 +146,8 @@ The most common used way is as a dynamic query builder as express middleware. It
 
 ``` javascript
 app.use(build.query())
+//or send mongoose in if your having loading issues
+app.use(build.query({mongoose:mongoose}))
 ``` 
 
 Configs

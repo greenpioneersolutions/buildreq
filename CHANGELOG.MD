@@ -1,33 +1,38 @@
-### 0.4.42(2015-12-14)
+### 0.4.43(2016-01-21)
+
+#### Bug Fix
+* **Update Query Populate:** Update to all the defaults to be seen & Schema names not just model names
+
+### 0.4.42(2016-01-17)
 
 #### Bug Fix
 * **Update Query :** Inject Mongoose to ensure models make it to the query
 
-### 0.4.41(2015-12-14)
+### 0.4.41(2016-01-14)
 
 #### Bug Fix
 * **Remove :** Async
-### 0.4.4(2015-12-14)
+### 0.4.4(2016-01-11)
 
 #### Bug Fix
 * **Add :** Async
 
-### 0.4.33(2015-12-14)
+### 0.4.33(2016-01-08)
 
 #### Bug Fix
 * **Routing :** Populate naming error 
 
-### 0.4.32(2015-12-14)
+### 0.4.32(2016-01-04)
 
 #### Bug Fix
 * **Routing :** Populate not called 
 
-### 0.4.31(2015-12-14)
+### 0.4.31(2016-01-01)
 
 #### Bug Fix
 * **Routing :** Fields Call - delete had dynamic failures
 
-### 0.4.3(2015-12-14)
+### 0.4.3(2015-12-15)
 
 #### Features
 * **Updated :** Routing /task/fields to response with instances & isRequired which will help to make your frontend dynamic
