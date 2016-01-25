@@ -1,3 +1,14 @@
+### 0.4.44(2016-01-25)
+
+#### Bug Fix
+* **Update Action:** Update to enable actions again because there fixed
+* **Update Count:** Update to the count to be async.parallel to handle the get and count
+* **Update Error & Warning:** Update the handlers
+* **Update PopulateId&Items:** Update them to handle warnings properly
+
+#### Features
+* **Clean Up:**Skip , Limit & the Example
+
 ### 0.4.43(2016-01-21)
 
 #### Bug Fix

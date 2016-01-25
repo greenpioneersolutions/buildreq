@@ -10,15 +10,15 @@ build.config({
     count: 0,
     hostname: '',
     type: '',
-    actions: {
-      prev: false,
-      next: false
-    },
+    // actions: {
+    //   prev: false,
+    //   next: false
+    // },
     delete: ['error', 'user']
   },
   query: {
     sort: '',
-    limit: 30,
+    limit: 20,
     select: '',
     filter: {},
     populateId: '',
@@ -37,6 +37,26 @@ var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function callback () {
   // console.log("connection")
+})
+var usersSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'testname'
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'testemail'
+  },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'testusername'
+  }
 })
 var blogSchema = mongoose.Schema({
   created: {
@@ -60,31 +80,16 @@ var blogSchema = mongoose.Schema({
     required: true,
     trim: true,
     default: 'testauthor'
-  }
-})
-var usersSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-    default: 'testname'
   },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    default: 'testemail'
-  },
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    default: 'testusername'
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Users'
   }
 })
 
-var Blog = mongoose.model('Blog', blogSchema)
 var Users = mongoose.model('Users', usersSchema)
+var Blog = mongoose.model('Blog', blogSchema)
+
 var app = express()
 
 // order matters

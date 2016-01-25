@@ -1,7 +1,7 @@
 {
   "name": "buildreq",
-  "version": "0.4.43",
-  "description": "buildreq",
+  "version": "0.4.44",
+  "description": "a dynamic response , routing , error & query package for expressjs and mongoose - buildreq",
   "main": "index.js",
   "scripts": {
     "test": "standard"
@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/GreenPioneer/buildreq",
   "dependencies": {
+    "async": "^1.5.2",
     "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
     "chalk": "^1.1.1",
