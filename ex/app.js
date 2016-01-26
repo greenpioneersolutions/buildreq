@@ -21,7 +21,7 @@ build.config({
     limit: 20,
     select: '',
     filter: {},
-    populateId: '',
+    populateId: 'user',
     populateItems: '',
     lean: false,
     skip: 0,
@@ -32,7 +32,7 @@ build.config({
     url: '/api/v1/'
   }
 })
-mongoose.connect('mongodb://localhost/mean-dev', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}})
+mongoose.connect('mongodb://localhost/buildreq', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function callback () {
@@ -93,17 +93,14 @@ var Blog = mongoose.model('Blog', blogSchema)
 var app = express()
 
 // order matters
-app.use(build.query({mongoose: mongoose}))
+app.use(build.queryMiddleware({mongoose: mongoose}))
 var testTime = function (req, res, next) {
-  console.log(req.originalUrl + ' noauth')
   next()
 }
 var testParameters = function (req, res, next) {
-  console.log(req.originalUrl + ' auth')
   next()
 }
 var testboth = function (req, res, next) {
-  console.log(req.originalUrl + ' ALL')
   next()
 }
 // builds a complete api based of shcemas
@@ -191,3 +188,4 @@ app.get('/create', function (req, res) {
 app.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'))
 })
+module.exports = app

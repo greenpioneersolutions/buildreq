@@ -1,3 +1,14 @@
+### 0.9.0(2016-01-26)
+PRE RELEASE
+
+#### Features
+* **Update Query Middleware Function:** 
+* **Update Query Standalone Function:**
+* **Update Response Middleware Function:**
+* **Update Response Standalone Function:**
+* **Added Testing:**
+
+
 ### 0.4.44(2016-01-25)
 
 #### Bug Fix

@@ -34,6 +34,22 @@
       if (this.options.console)console.log(chalk.blue('Default:Configs Added On Build'))
     }
   }
+  Build.prototype.queryMiddleware = function (params) {
+    try {
+      var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
+    } catch (err) {
+      mongoose = require('bluebird').promisifyAll(require('mongoose'))
+    } finally {
+      mongoose.Promise = require('bluebird')
+    }
+    function setup () {
+      return {
+        mongoose: mongoose,
+        options: this.options
+      }
+    }
+    return functions.query.queryMiddleware(setup.bind(this))
+  }
   Build.prototype.query = function (params) {
     try {
       var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
@@ -46,10 +62,11 @@
     function setup () {
       return {
         mongoose: mongoose,
-        options: this.options
+        options: this.options,
+        req: params.req || {'query': {}}
       }
     }
-    return functions.query(setup.bind(this))
+    return functions.query.query(setup.bind(this))
   }
   Build.prototype.error = function () {
     function setup () {
@@ -67,7 +84,15 @@
         res: res
       }
     }
-    return functions.response(setup.bind(this))
+    return functions.response.response(setup.bind(this))
+  }
+  Build.prototype.responseMiddleware = function () {
+    function setup () {
+      return {
+        options: this.options
+      }
+    }
+    return functions.response.responseMiddleware(setup.bind(this))
   }
   Build.prototype.routing = function (params, callback) {
     function setup () {

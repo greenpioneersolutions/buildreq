@@ -28,6 +28,19 @@ build.config(<!-- Config option #2 {console: false}-->)
 The next common way to use this module is to have it build your api response so that you have a consistent format. This response is dynamic enough right off the bat to do logic based on actions you wish to give your frontend. Great thing is if you don’t like some of the fields you can delete them in the configs. 
 
 ``` javascript
+//this places a response function on the RES
+app.use(build.responseMiddleware())
+res.response(res, {
+    count: results.count,
+    method: 'json',
+    query: req.queryParameters,
+    hostname: req.get('host') + req.baseUrl,
+    route: req.route,
+    data: results.get,
+    type: Campaign
+  })
+
+//or standalone call to response
 build.response(res, {
     method: 'json',
     query: req.queryParameters,
@@ -35,6 +48,8 @@ build.response(res, {
     route: req.route,
     data: 'no data'
   })
+
+
 ``` 
 
 Configs
@@ -58,6 +73,7 @@ Key | Description | Default Value
 `actions.prev` | turns on action.prev by default | `true`
 `actions.next` | turns on action.next by default | `true`
 `actions.reload` | turns on action.reload by default | ` true`
+`middleware`| allows you to place middle ware on the routes | `auth: [],noauth: [],all: []`
 `delete` | deletes response objects | `[] `
 
 ## R - Routing Builder - Working
@@ -145,9 +161,11 @@ app.use(build.error())
 The most common used way is as a dynamic query builder as express middleware. It watches on the “req.query “ to see how you users interacting with it. Once it captures the data it will then check it again all of you defined mongoose schemas. By doing that it allows the builder to know what to allow and what not to all. This will give you a dynamic api query handler with out having to code anything at all . All you need to do is to tell express to use the module as middleware “app.use(buildReq.query);”
 
 ``` javascript
-app.use(build.query())
+app.use(build.queryqueryMiddleware())
 //or send mongoose in if your having loading issues
-app.use(build.query({mongoose:mongoose}))
+app.use(build.queryMiddleware({mongoose:mongoose}))
+//or you can do a standalone call
+console.log(build.query({mongoose:mongoose,req:req})
 ``` 
 
 Configs
