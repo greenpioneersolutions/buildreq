@@ -1,3 +1,16 @@
+### 0.9.2(2016-02-12)
+PRE RELEASE
+
+#### Issues
+* ** #3 Update the Where Operator to handle multiple where's ** 
+
+### 0.9.1(2016-02-01)
+PRE RELEASE
+
+#### Issues
+* ** #1 Update Query to not mandate populate Id & Items **
+* ** #2 Updated the Response to all the change of status ** 
+
 ### 0.9.0(2016-01-26)
 PRE RELEASE
 

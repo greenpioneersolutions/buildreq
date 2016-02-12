@@ -32,7 +32,13 @@ build.config({
     url: '/api/v1/'
   }
 })
-mongoose.connect('mongodb://localhost/buildreq', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}})
+mongoose.connect('mongodb://localhost/buildreq', {
+  server: {
+    socketOptions: {
+      keepAlive: 1, connectTimeoutMS: 30000
+    }
+  }
+})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function callback () {
