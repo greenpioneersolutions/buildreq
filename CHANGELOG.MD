@@ -1,3 +1,9 @@
+### 0.9.3(2016-03-01)
+PRE RELEASE
+
+#### Features
+* ** #4 Added the ability to do deepPopulate ** 
+
 ### 0.9.2(2016-02-12)
 PRE RELEASE
 
