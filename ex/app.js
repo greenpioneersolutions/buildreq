@@ -29,16 +29,18 @@ build.config({
   },
   routing: {
     schema: true,
-    url: '/api/v1/'
+    url: '/api/v1/',
+    uploads: true,
+    multer: {
+      temp: __dirname + '/temp',
+      destination: __dirname + '/upload'
+    },
+    sockets: ['message'],
+    socket: true
   }
 })
-mongoose.connect('mongodb://localhost/buildreq', {
-  server: {
-    socketOptions: {
-      keepAlive: 1, connectTimeoutMS: 30000
-    }
-  }
-})
+//mongodb://test:test@ds037814.mlab.com:37814/jhumphre//mongoose.connect('mongodb://test:test@ds0378
+mongoose.connect('mongodb://test:test@ds037814.mlab.com:37814/jhumphrey', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function callback () {
@@ -144,7 +146,8 @@ app.get('/response', function (req, res) {
     query: req.queryParameters,
     hostname: req.get('host') + req.path,
     route: req.route,
-    data: 'no data'
+    data: 'no data',
+    status: 200
   })
 })
 app.get('/blog', function (req, res) {

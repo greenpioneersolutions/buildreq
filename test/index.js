@@ -135,8 +135,8 @@ describe('API TESTING', function () {
         .get('/api/v1/blog')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          assert.equal(res.body.query.populateId, 'user ')
-          assert.equal(res.body.query.populateItems, '')
+          assert.equal(res.body.query.populateId, 'Users Blog user ')
+          assert.equal(res.body.query.populateItems, 'name email username _id id __v created title content author user ')
           assert.equal(res.body.count, 24)
           assert.equal(res.body.itemPerPage, 20)
           done()
@@ -149,7 +149,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               filter: {
                 title: 'Deployment Ready'
               }
@@ -168,7 +168,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               sort: 'title'
             },
             count: 24,
@@ -186,7 +186,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               limit: 10
             },
             count: 24,
@@ -204,7 +204,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               lean: 'true'
             },
             count: 24,
@@ -222,7 +222,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               select: 'title'
             },
             count: 24,
@@ -239,7 +239,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               where: 'title'
             },
             count: 24,
@@ -256,7 +256,7 @@ describe('API TESTING', function () {
           if (err) return done(err)
           checkAssert({
             query: {
-              populateId: 'user ',
+              populateId: 'Users Blog user ',
               where: {title: {}},
               find: 'Smart'
             },
@@ -268,16 +268,17 @@ describe('API TESTING', function () {
         })
     })
 
-  // /api/v1/blog?where=created&gt=2015-11-17&lt=2016-12-30
-  // equals  http://localhost:3000/api/v1/campaigns?where=email&equals=john@greenpioneersolutions.com
-  // in  http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com
-  // ne  http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
-  // nin http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com
-  // regex & options http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
-  // size  http://localhost:3000/api/v1/campaigns?where=emails&size=2
-  // all http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
-  // find  http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
-  // aggregate http://localhost:3000/api/v1/campaigns/task/aggregated?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount
+    // /api/v1/blog?where=created&gt=2015-11-17&lt=2016-12-30
+    // equals  http://localhost:3000/api/v1/campaigns?where=email&equals=john@greenpioneersolutions.com
+    // in  http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com
+    // ne  http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
+    // nin http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com
+    // regex & options http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
+    // size  http://localhost:3000/api/v1/campaigns?where=emails&size=2
+    // all http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
+    // find  http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
+    // aggregate http://localhost:3000/api/v1/campaigns/task/aggregated?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount
+
   })
 })
 Blog.find({}).remove().exec()
