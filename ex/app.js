@@ -23,6 +23,8 @@ build.config({
     filter: {},
     populateId: 'user',
     populateItems: '',
+    deepPopulate: 'user.projects',
+    // add example of deepPop Later
     lean: false,
     skip: 0,
     errorMessage: 'Unknown Value'
@@ -32,7 +34,7 @@ build.config({
     url: '/api/v1/'
   }
 })
-mongoose.connect('mongodb://localhost/buildreq', {
+mongoose.connect('mongodb://test:test@ds037814.mongolab.com:37814/jhumphrey', {
   server: {
     socketOptions: {
       keepAlive: 1, connectTimeoutMS: 30000

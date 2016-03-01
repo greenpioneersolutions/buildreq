@@ -148,6 +148,10 @@ Key | Description | Default Value
 `build` | change the default to false to manually mount the routing | 'true'
 `middleware` | change the default to false to manually mount the routing | `{ auth: [], noauth: [], all: [] }`
 `remove` | remove mongoose models by name if you dont want them routed ex `['Users'] | `[]`
+`deepPopulateOptions` |  [Mongoose populate options](http://mongoosejs.com/docs/api.html#model_Model.populate) |`{whitelist: [],populate: {},rewrite: {}}`
+`deepPopulateOptions.whitelist` | [Mongoose populate options](http://mongoosejs.com/docs/api.html#model_Model.populate)  |`[]`
+`deepPopulateOptions.populate` | [Mongoose populate options](http://mongoosejs.com/docs/api.html#model_Model.populate)  |`{}`
+`deepPopulateOptions.rewrite` |  [Mongoose populate options](http://mongoosejs.com/docs/api.html#model_Model.populate) |`{}`
 
 
 ## E - Error - N/A
@@ -185,6 +189,7 @@ Key | Description | Default Value
 `select` | uses empty string by default | `''`
 `populateId` | uses empty string by default | `''`
 `populateItems` | uses empty string by default | `''`
+`deepPopulate` | uses empty string by default | `''`
 `lean` | uses empty string by default | `''`
 `skip` | uses empty string by default | `0`
 `where` | uses empty string by default | `''`
