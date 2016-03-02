@@ -89,6 +89,10 @@ var blogSchema = mongoose.Schema({
     trim: true,
     default: 'testauthor'
   },
+  name: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'Users'
