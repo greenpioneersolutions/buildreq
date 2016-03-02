@@ -1,3 +1,9 @@
+### 0.9.4(2016-03-02)
+PRE RELEASE
+
+#### Features
+* ** #5 Added the ability to parse a value based on the schema ex. Boolean , String , Date ....etc ** 
+
 ### 0.9.3(2016-03-01)
 PRE RELEASE
 
