@@ -15,6 +15,19 @@
 ## What is Build Response,Routing,Error & Query?
 It is currently a Mongoose & Express dependent module. It can be used in a different ways. It is most useful when used as a middleware with expressjs  in conjunction with your api.
 
+``` javascript
+
+    Build out docs and examples
+    Build.prototype.queryMiddleware
+    Build.prototype.query
+    Build.prototype.error
+    Build.prototype.response
+    Build.prototype.responseMiddleware
+    Build.prototype.routing
+    Build.prototype.config 
+    Build.prototype.mongooseCheck 
+
+```
 
 ## Init & Config
 ``` javascript
