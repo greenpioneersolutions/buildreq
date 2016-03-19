@@ -8,33 +8,33 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GreenPioneer/buildreq.git"
+    "url": "https://github.com/greenpioneersolutions/buildreq.git"
   },
   "keywords": [
-    "GreenPioneer",
+    "greenpioneersolutions",
     "express",
     "mongoose",
     "api"
   ],
   "contributors": [
     {
-      "name": "GreenPioneer",
+      "name": "greenpioneersolutions",
       "email": "green@greenpioneersolutions.com",
-      "web": "https://github.com/GreenPioneer"
+      "web": "https://github.com/greenpioneersolutions"
     }
   ],
   "maintainers": [
     {
-      "name": "GreenPioneer",
-      "web": "https://github.com/GreenPioneer?tab=members"
+      "name": "greenpioneersolutions",
+      "web": "https://github.com/greenpioneersolutions?tab=members"
     }
   ],
   "author": "Green Pioneer <green@greenpioneersolutions.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/GreenPioneer/buildreq/issues"
+    "url": "https://github.com/greenpioneersolutions/buildreq/issues"
   },
-  "homepage": "https://github.com/GreenPioneer/buildreq",
+  "homepage": "https://github.com/greenpioneersolutions/buildreq",
   "dependencies": {
     "async": "^1.5.2",
     "bluebird": "^3.0.6",
