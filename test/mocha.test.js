@@ -11,6 +11,7 @@ describe('BuildREQ', function () {
         .get('api/v1/blog')
         .expect(200, function (err, res) {
           if (err) return done(err)
+          console.log(res.body, 'sdfljkfdsjkldfsjkl')
           assert.equal(res.body.data.length, '20')
           assert.equal(res.body.itemPerPage, '20')
           assert.equal(res.body.count, '24')
