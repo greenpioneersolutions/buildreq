@@ -34,7 +34,7 @@ build.config({
     url: '/api/v1/'
   }
 })
-mongoose.connect('mongodb://test:test@ds037814.mongolab.com:37814/jhumphrey', {
+mongoose.connect('mongodb://localhost/build', {
   server: {
     socketOptions: {
       keepAlive: 1, connectTimeoutMS: 30000
