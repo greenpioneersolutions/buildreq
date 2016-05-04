@@ -57,7 +57,7 @@
   "homepage": "https://github.com/greenpioneersolutions/buildreq",
   "dependencies": {
     "async": "^1.5.2",
-    "bluebird": "^3.0.6",
+    "bluebird": "^3.3.5",
     "body-parser": "^1.14.1",
     "chalk": "^1.1.1",
     "compression": "^1.6.0",
