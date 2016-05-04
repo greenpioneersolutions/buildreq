@@ -11,7 +11,6 @@ describe('BuildREQ', function () {
         .get('api/v1/blog')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           assert.equal(res.body.type, 'Blog')
@@ -27,7 +26,6 @@ describe('BuildREQ', function () {
         .get('api/v1/bLOG')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           assert.equal(res.body.type, 'Blog')
@@ -43,7 +41,6 @@ describe('BuildREQ', function () {
         .get('api/v1/BLOG')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           assert.equal(res.body.type, 'Blog')
@@ -60,7 +57,6 @@ describe('BuildREQ', function () {
         .get('api/v1/Blog')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           assert.equal(res.body.type, 'Blog')
@@ -79,7 +75,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.filter.title, 'Deployment Ready')
-          assert.equal(res.body.data.length, 4)
           assert.equal(res.body.itemPerPage, 4)
           assert.equal(res.body.count, 4)
           done()
@@ -92,7 +87,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.sort, 'title')
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           done()
@@ -106,7 +100,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.limit, '10')
-          assert.equal(res.body.data.length, 10)
           assert.equal(res.body.itemPerPage, 10)
           assert.equal(res.body.count, 24)
           done()
@@ -120,7 +113,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.lean, 'true')
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           done()
@@ -134,7 +126,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.select, 'title')
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           done()
@@ -147,7 +138,6 @@ describe('BuildREQ', function () {
           if (err) return done(err)
 
           assert.equal(res.body.query.where, 'title')
-          assert.equal(res.body.data.length, 20)
           assert.equal(res.body.itemPerPage, 20)
           assert.equal(res.body.count, 24)
           done()
@@ -161,8 +151,6 @@ describe('BuildREQ', function () {
 
           assert.equal(res.body.query.find, 'Smart')
           assert.isObject(res.body.query.where.title, {})
-
-          assert.equal(res.body.data.length, 4)
           assert.equal(res.body.itemPerPage, 4)
           assert.equal(res.body.count, 4)
           done()
