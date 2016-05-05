@@ -1,3 +1,11 @@
+### 0.9.5(2016-05-05)
+PRE RELEASE
+
+#### Features
+* ** #6 Added Test Cases ** 
+* ** #6 Fixed Small bugs  ** 
+* ** #6 Updated some logic to check names  ** 
+
 ### 0.9.4(2016-03-02)
 PRE RELEASE
 
