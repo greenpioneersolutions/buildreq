@@ -2,9 +2,10 @@
 
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
-[![dependencies](https://david-dm.org/greenpioneer/buildreq.svg)](https://david-dm.org/greenpioneer/buildreq)
+[![dependencies](https://david-dm.org/greenpioneersolutions/buildreq.svg)](https://david-dm.org/greenpioneersolutions/buildreq)
 [![npm-issues](https://img.shields.io/github/issues/GreenPioneer/buildreq.svg)](https://github.com/GreenPioneer/buildreq/issues)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Build Status](https://travis-ci.org/greenpioneersolutions/buildreq.svg?branch=master)](https://travis-ci.org/greenpioneersolutions/buildreq)
 [![js-standard-style](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)
 
 [npm-image]: https://img.shields.io/npm/v/buildreq.svg?style=flat
@@ -15,6 +16,19 @@
 ## What is Build Response,Routing,Error & Query?
 It is currently a Mongoose & Express dependent module. It can be used in a different ways. It is most useful when used as a middleware with expressjs  in conjunction with your api.
 
+``` javascript
+
+    Build out docs and examples
+    Build.prototype.queryMiddleware
+    Build.prototype.query
+    Build.prototype.error
+    Build.prototype.response
+    Build.prototype.responseMiddleware
+    Build.prototype.routing
+    Build.prototype.config 
+    Build.prototype.mongooseCheck 
+
+```
 
 ## Init & Config
 ``` javascript
