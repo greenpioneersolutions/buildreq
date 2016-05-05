@@ -1,13 +1,30 @@
 module.exports = seed
 var mongoose = require('mongoose')
-mongoose.Promise = require('bluebird')
+var async = require('async')
 var User = mongoose.model('Users')
 var Blog = mongoose.model('Blog')
 
 function seed (cb) {
-  console.log('seed')
-  User.find({}).remove().then(function () {
-    Blog.find({}).remove().then(function () {
+  async.waterfall([
+    function (callback) {
+      async.parallel({
+        User: function (callback) {
+          User.find({}).remove().exec(function () {
+            callback(null, true)
+          })
+        },
+        Blog: function (callback) {
+          Blog.find({}).remove().exec(function () {
+            callback(null, true)
+          })
+        }
+      },
+        function (err, results) {
+          if (err) throw err
+          callback(null, true)
+        })
+    },
+    function (done, callback) {
       User.create([{
         email: 'jason@greenpioneersolutions.com',
         name: 'jason',
@@ -33,54 +50,93 @@ function seed (cb) {
         name: 'help',
         username: 'help greenpioneer'
       }]).then(function (users) {
-        Blog.create([{
-          title: 'Mean',
-          user: users[0]._id
-
-        }, {
-          title: 'Green Pioneer Solutions',
-          user: users[0]._id
-
-        }, {
-          title: 'expertise',
-          user: users[1]._id
-
-        }, {
-          title: 'combination',
-          user: users[2]._id
-
-        }, {
-          title: 'goals',
-          user: users[2]._id
-
-        }, {
-          title: 'energy-efficient',
-          user: users[3]._id
-
-        }, {
-          title: 'vision',
-          user: users[4]._id
-
-        }, {
-          title: 'sustainability',
-          user: users[4]._id
-
-        }, {
-          title: 'Sustainable',
-          user: users[5]._id
-
-        }, {
-          title: 'computing',
-          user: users[5]._id
-
-        }, {
-          title: 'example',
-          user: users[5]._id
-
-        }]).then(function (blogs) {
-          if (cb)cb()
-        })
+        callback(null, users)
       })
+    },
+    function (Person, callback) {
+      console.log(Person, 'users')
+      Blog.create([{
+        title: 'Development Tools',
+        user: Person._id
+      }, {
+        title: 'Server and Client integration',
+        user: Person._id
+      }, {
+        title: 'Smart Build System',
+        user: Person._id
+      }, {
+        title: 'Modular Structure',
+        user: Person._id
+      }, {
+        title: 'Optimized Build',
+        user: Person._id
+      }, {
+        title: 'Deployment Ready',
+        user: Person._id
+      }, {
+        title: 'Development Tools',
+        user: Person._id
+      }, {
+        title: 'Server and Client integration',
+        user: Person._id
+      }, {
+        title: 'Smart Build System',
+        user: Person._id
+      }, {
+        title: 'Modular Structure',
+        user: Person._id
+      }, {
+        title: 'Optimized Build',
+        user: Person._id
+      }, {
+        title: 'Deployment Ready',
+        user: Person._id
+      }, {
+        title: 'Development Tools',
+        user: Person._id
+      }, {
+        title: 'Server and Client integration',
+        user: Person._id
+      }, {
+        title: 'Smart Build System',
+        user: Person._id
+      }, {
+        title: 'Modular Structure',
+        user: Person._id
+      }, {
+        title: 'Optimized Build',
+        user: Person._id
+      }, {
+        title: 'Deployment Ready',
+        user: Person._id
+      }, {
+        title: 'Development Tools',
+        user: Person._id
+      }, {
+        title: 'Server and Client integration',
+        user: Person._id
+      }, {
+        title: 'Smart Build System',
+        user: Person._id
+      }, {
+        title: 'Modular Structure',
+        user: Person._id
+      }, {
+        title: 'Optimized Build',
+        user: Person._id
+      }, {
+        title: 'Deployment Ready',
+        user: Person._id
+      }]).then(function (blogs) {
+        callback(null, Person, blogs)
+      })
+    }
+  ], function (err, users, blogs) {
+    if (err) throw err
+    console.log('madfsksdfj')
+    cb({
+      users: users,
+      blogs: blogs
     })
   })
 }

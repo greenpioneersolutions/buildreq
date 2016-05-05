@@ -23,7 +23,7 @@
       "io",
       "expect",
       "inject",
-      "beforeEach"
+      "before"
     ]
   },
   "repository": {

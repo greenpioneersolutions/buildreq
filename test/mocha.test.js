@@ -2,16 +2,125 @@ require('../ex/app.js')
 
 var assert = require('chai').assert
 var request = require('supertest')
+var mongoose = require('mongoose')
+var User = mongoose.model('Users')
+var Blog = mongoose.model('Blog')
 
-require('./seed.db.js')
 describe('BuildREQ', function () {
+  before(function (done) {
+    // require('./seed.db.js')
+    User.find({}).remove().exec(function () {
+      Blog.find({}).remove().exec(function () {
+        User.create([{
+          email: 'jason@greenpioneersolutions.com',
+          name: 'jason',
+          username: 'jason greenpioneer'
+        }, {
+          email: 'accounting@greenpioneersolutions.com',
+          name: 'accounting',
+          username: 'accounting greenpioneer'
+        }, {
+          email: 'ceo@greenpioneersolutions.com',
+          name: 'ceo',
+          username: 'ceo greenpioneer'
+        }, {
+          email: 'development@greenpioneersolutions.com',
+          name: 'development',
+          username: 'development greenpioneer'
+        }, {
+          email: 'qa@greenpioneersolutions.com',
+          name: 'qa',
+          username: 'qa greenpioneer'
+        }, {
+          email: 'help@greenpioneersolutions.com',
+          name: 'help',
+          username: 'help greenpioneer'
+        }]).then(function (Person) {
+          Blog.create([{
+            title: 'Development Tools',
+            user: Person[0]._id
+          }, {
+            title: 'Server and Client integration',
+            user: Person[0]._id
+          }, {
+            title: 'Smart Build System',
+            user: Person[0]._id
+          }, {
+            title: 'Modular Structure',
+            user: Person[0]._id
+          }, {
+            title: 'Optimized Build',
+            user: Person[1]._id
+          }, {
+            title: 'Deployment Ready',
+            user: Person[1]._id
+          }, {
+            title: 'Development Tools',
+            user: Person[1]._id
+          }, {
+            title: 'Server and Client integration',
+            user: Person[2]._id
+          }, {
+            title: 'Smart Build System',
+            user: Person[2]._id
+          }, {
+            title: 'Modular Structure',
+            user: Person[2]._id
+          }, {
+            title: 'Optimized Build',
+            user: Person[3]._id
+          }, {
+            title: 'Deployment Ready',
+            user: Person[3]._id
+          }, {
+            title: 'Development Tools',
+            user: Person[3]._id
+          }, {
+            title: 'Server and Client integration',
+            user: Person[4]._id
+          }, {
+            title: 'Smart Build System',
+            user: Person[4]._id
+          }, {
+            title: 'Modular Structure',
+            user: Person[4]._id
+          }, {
+            title: 'Optimized Build',
+            user: Person[5]._id
+          }, {
+            title: 'Deployment Ready',
+            user: Person[5]._id
+          }, {
+            title: 'Development Tools',
+            user: Person[5]._id
+          }, {
+            title: 'Server and Client integration',
+            user: Person[0]._id
+          }, {
+            title: 'Smart Build System',
+            user: Person[1]._id
+          }, {
+            title: 'Modular Structure',
+            user: Person[2]._id
+          }, {
+            title: 'Optimized Build',
+            user: Person[3]._id
+          }, {
+            title: 'Deployment Ready',
+            user: Person[4]._id
+          }]).then(function (blogs) {
+            done()
+          })
+        })
+      })
+    })
+  })
   describe('BLOG', function () {
     it('GET /api/v1/blog', function (done) {
       request('localhost:3000/')
         .get('api/v1/blog')
         .expect(200, function (err, res) {
           if (err) return done(err)
-          console.log(res.body, 'sdfljkfdsjkldfsjkl')
           assert.equal(res.body.data.length, '20')
           assert.equal(res.body.itemPerPage, '20')
           assert.equal(res.body.count, '24')
