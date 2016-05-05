@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 4
+  - 5
+  - 6
+os:
+  - linux
+  - centos
+  - macosx
+  - windows
+script:
+  - npm test
+services: mongodb
