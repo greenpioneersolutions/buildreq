@@ -1,6 +1,6 @@
 {
   "name": "buildreq",
-  "version": "0.9.5",
+  "version": "1.0.0",
   "description": "a dynamic response , routing , error & query package for expressjs and mongoose - buildreq",
   "main": "index.js",
   "scripts": {
