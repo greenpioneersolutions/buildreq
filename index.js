@@ -42,10 +42,41 @@
     } finally {
       mongoose.Promise = require('bluebird')
     }
+
+    this.options.query.mongoose = mongoose.connection.readyState === 0 ? 0 : 1
+    var defaults = this.options.query
+    var schemas = {}
+    var schema = []
+    var schemaSort = []
+    var models
+
+    if (defaults.mongoose) {
+      models = _.keys(mongoose.models)
+      _.forEach(models, function (n, key) {
+        schemas[n] = {}
+        schemas[n].paths = mongoose.models[n].schema.paths
+        _.forEach(mongoose.models[n].schema.tree, function (j, key) {
+          schema.push(key)
+          schemaSort.push(key)
+          schemaSort.push('-' + key)
+        })
+      })
+    } else {
+      schemaSort = schema = defaults.schema
+    }
+
     function setup () {
       return {
         mongoose: mongoose,
-        options: this.options
+        options: this.options,
+        defaults: defaults,
+        schemas: schemas,
+        schema: _.uniq(schema),
+        schemaSort: schemaSort,
+        models: models,
+        modelNameCheck: function (name) {
+          return models[models.indexOf(name)]
+        }
       }
     }
     return functions.query.queryMiddleware(setup.bind(this))
@@ -59,11 +90,41 @@
       mongoose.Promise = require('bluebird')
     }
 
+    this.options.query.mongoose = mongoose.connection.readyState === 0 ? 0 : 1
+    var defaults = this.options.query
+    var schemas = {}
+    var schema = []
+    var schemaSort = []
+    var models
+
+    if (defaults.mongoose) {
+      models = _.keys(mongoose.models)
+      _.forEach(models, function (n, key) {
+        schemas[n] = {}
+        schemas[n].paths = mongoose.models[n].schema.paths
+        _.forEach(mongoose.models[n].schema.tree, function (j, key) {
+          schema.push(key)
+          schemaSort.push(key)
+          schemaSort.push('-' + key)
+        })
+      })
+    } else {
+      schemaSort = schema = defaults.schema
+    }
+
     function setup () {
       return {
         mongoose: mongoose,
         options: this.options,
-        req: params.req || {'query': {}}
+        req: params.req || {'query': {}},
+        defaults: defaults,
+        schemas: schemas,
+        schema: _.uniq(schema),
+        schemaSort: schemaSort,
+        models: models,
+        modelNameCheck: function (name) {
+          return models[models.indexOf(name)]
+        }
       }
     }
     return functions.query.query(setup.bind(this))
@@ -110,13 +171,15 @@
         var middlewareRouting = _.merge({
           auth: [],
           noauth: [],
-          all: []
+          all: [],
+          admin: []
         }, params.middleware)
       } catch (err) {
         middlewareRouting = {
           auth: [],
           noauth: [],
-          all: []
+          all: [],
+          admin: []
         }
       }
 

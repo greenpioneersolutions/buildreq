@@ -5,7 +5,6 @@ var request = require('supertest')
 var mongoose = require('mongoose')
 var User = mongoose.model('Users')
 var Blog = mongoose.model('Blog')
-
 describe('BuildREQ', function () {
   before(function (done) {
     // require('./seed.db.js')
@@ -14,29 +13,36 @@ describe('BuildREQ', function () {
         User.create([{
           email: 'jason@greenpioneersolutions.com',
           name: 'jason',
-          username: 'jason greenpioneer'
+          username: 'jason greenpioneer',
+          roles: ['gps', 'admin', 'user']
         }, {
           email: 'accounting@greenpioneersolutions.com',
           name: 'accounting',
-          username: 'accounting greenpioneer'
+          username: 'accounting greenpioneer',
+          roles: ['gps', 'user', 'accounting']
         }, {
           email: 'ceo@greenpioneersolutions.com',
           name: 'ceo',
-          username: 'ceo greenpioneer'
+          username: 'ceo greenpioneer',
+          roles: ['gps', 'admin', 'ceo']
         }, {
           email: 'development@greenpioneersolutions.com',
           name: 'development',
-          username: 'development greenpioneer'
+          username: 'development greenpioneer',
+          roles: ['gps', 'user', 'development']
         }, {
           email: 'qa@greenpioneersolutions.com',
           name: 'qa',
-          username: 'qa greenpioneer'
+          username: 'qa greenpioneer',
+          roles: ['gps', 'admin', 'qa']
         }, {
           email: 'help@greenpioneersolutions.com',
           name: 'help',
-          username: 'help greenpioneer'
+          username: 'help greenpioneer',
+          roles: ['gps', 'help']
         }]).then(function (Person) {
           Blog.create([{
+            _id: '575796a2286ab1f5075dcd11',
             title: 'Development Tools',
             user: Person[0]._id
           }, {
@@ -305,115 +311,158 @@ describe('BuildREQ', function () {
           done()
         })
     })
-    // // in  http://localhost:3000/api/v1/campaigns?where=emails&in=javier@greenpioneersolutions.com
-    // it('GET /api/v1/Blog?where=emails&in=qa@greenpioneersolutions.com', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=emails&in=qa@greenpioneersolutions.com')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
+    it('GET /api/v1/Blog?where=title&find=**Tools', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Blog?where=title&find=**Development Tools')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data.length, '0')
+          assert.equal(res.body.itemPerPage, '0')
+          assert.equal(res.body.count, '0')
+          done()
+        })
+    })
+    it('GET /blog/test/', function (done) {
+      request('localhost:3000/')
+        .get('blog/test')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data.length, '20')
+          assert.equal(res.body.itemPerPage, '20')
+          assert.equal(res.body.count, '24')
+          done()
+        })
+    })
+    it('GET /blog/test?where=title&find=Development Tools', function (done) {
+      request('localhost:3000/')
+        .get('blog/test?where=title&find=Development Tools')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data.length, '4')
+          assert.equal(res.body.itemPerPage, '4')
+          assert.equal(res.body.count, '24')
+          done()
+        })
+    })
+    it('GET /api/v1/Blog/23ljlkdf2io3j', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Blog?where=title&find=**Development Tools')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data.length, '0')
+          assert.equal(res.body.itemPerPage, '0')
+          assert.equal(res.body.count, '0')
+          done()
+        })
+    })
+    it('GET /api/v1/blog/575796a2286ab1f5075dcd11', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/blog/575796a2286ab1f5075dcd11')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data._id, '575796a2286ab1f5075dcd11')
+          assert.equal(res.body.data.name, true)
+          assert.equal(res.body.data.author, 'testauthor')
+          assert.equal(res.body.data.content, 'testcontent')
+          assert.equal(res.body.data.title, 'Development Tools')
+          done()
+        })
+    })
 
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // ne  http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
-    // it('GET /api/v1/Blog?where=email&ne=ceo@greenpioneersolutions.com', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=email&ne=ceo@greenpioneersolutions.com')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
+    it('GET /api/v1/Users', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.data.length, '6')
+          assert.equal(res.body.itemPerPage, '6')
+          assert.equal(res.body.count, '6')
+          done()
+        })
+    })
+    it('GET /api/v1/Users?where=roles&in=development', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=roles&in=development')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.roles.$in, 'development')
+          assert.equal(res.body.data.length, '1')
+          assert.equal(res.body.itemPerPage, '1')
+          assert.equal(res.body.count, '1')
+          done()
+        })
+    })
+    // ne  http://localhost:3000/api/v1/campaigns?where=email&ne=john@greenpioneersolutions.com
+    it('GET /api/v1/Users?where=roles&ne=qa', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=roles&ne=qa')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.roles.$ne, 'qa')
+          assert.equal(res.body.data.length, '5')
+          assert.equal(res.body.itemPerPage, '5')
+          assert.equal(res.body.count, '5')
+          done()
+        })
+    })
+    it('GET /api/v1/Users?where=roles&nin=qa', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=roles&nin=qa')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.roles.$nin, 'qa')
+          assert.equal(res.body.data.length, '5')
+          assert.equal(res.body.itemPerPage, '5')
+          assert.equal(res.body.count, '5')
+          done()
+        })
+    })
 
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // nin http://localhost:3000/api/v1/campaigns?where=emails&nin=javier@greenpioneersolutions.com
-    // it('GET /api/v1/Blog?where=emails&nin=accounting@greenpioneersolutions.com', function (done) {
+    // regex & options http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
+    it('GET /api/v1/Users?where=email&regex=greenpioneersolution&options=<options>', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=email&regex=greenpioneersolution&options=<options>')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.email.$regex, 'greenpioneersolution')
+          assert.equal(res.body.query.where.email.$options, '<options>')
+          assert.equal(res.body.data.length, '6')
+          assert.equal(res.body.itemPerPage, '6')
+          assert.equal(res.body.count, '6')
+          done()
+        })
+    })
+    // size  http://localhost:3000/api/v1/campaigns?where=emails&size=2
+    it('GET /api/v1/UsersUsers?where=roles&size=2', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=roles&size=2')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.roles.$size, '2')
+          assert.equal(res.body.data.length, '1')
+          assert.equal(res.body.itemPerPage, '1')
+          assert.equal(res.body.count, '1')
+          done()
+        })
+    })
+    // all http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
+    it('GET /api/v1/Users?where=roles&all=gps&all=admin', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=roles&all=gps&all=admin')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.where.roles.$all[0], 'gps')
+          assert.equal(res.body.query.where.roles.$all[1], 'admin')
+          assert.equal(res.body.data.length, '3')
+          assert.equal(res.body.itemPerPage, '3')
+          assert.equal(res.body.count, '3')
+          done()
+        })
+    })
+    // find  http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
+    // it('GET /api/v1/Users?where=email&find=jason@', function (done) {
     //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=emails&nin=accounting@greenpioneersolutions.com')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
-
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // regex & options http://localhost:3000/api/v1/campaigns?where=email&regex=\/com\/&options=%3Coptions%3E
-    // it('GET /api/v1/Blog?where=email&regex=\/com\/&options=%3Coptions%3E', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=email&regex=\/com\/&options=%3Coptions%3E')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
-
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // size  http://localhost:3000/api/v1/campaigns?where=emails&size=2
-    // it('GET /api/v1/Blog?where=emails&size=2', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=emails&size=2')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
-
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // all http://localhost:3000/api/v1/campaigns?where=email&all=shawn@greenpioneersolutions.com
-    // it('GET /api/v1/Blog?where=email&all=jason@greenpioneersolutions.com', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=email&all=jason@greenpioneersolutions.com')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
-
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // // find  http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
-    // it('GET /api/v1/Blog?where=email&find=jason@', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=email&find=jason@')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
-
-    //       assert.equal(res.body.query.find, 'Smart')
-    //       assert.isObject(res.body.query.where.title, {})
-    //       assert.equal(res.body.data.length, '4')
-    //       assert.equal(res.body.itemPerPage, '4')
-    //       assert.equal(res.body.count, '4')
-    //       done()
-    //     })
-    // })
-    // aggregate http://localhost:3000/api/v1/campaigns/task/aggregated?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount
-    // it('GET /api/v1/Blog?where=title&find=Smart', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Blog?where=title&find=Smart')
+    //     .get('api/v1/Users?where=email&find=jason@')
     //     .expect(200, function (err, res) {
     //       if (err) return done(err)
 
