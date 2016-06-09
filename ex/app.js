@@ -188,12 +188,14 @@ app.get('/blog/test/', function (req, res) {
     })
 })
 app.get('/blog', function (req, res) {
-  Blog.find(req.queryParameters.filter)
-    .where(req.queryParameters.where)
-    .sort(req.queryParameters.sort)
-    .select(req.queryParameters.select)
-    .limit(req.queryParameters.limit)
-    .skip(req.queryParameters.skip)
+  Blog.find(req.queryParameters.filter || '')
+    .where(req.queryParameters.where || '')
+    .sort(req.queryParameters.sort || '')
+    .select(req.queryParameters.select || '')
+    .limit(req.queryParameters.limit || '')
+    .skip(req.queryParameters.skip || '')
+    .deepPopulate(req.queryParameters.deepPopulate || '')
+    .populate(req.queryParameters.populateId || '', req.queryParameters.populateItems || '')
     .exec(function (err, blogs) {
       if (err) {
         return res.status(500).json({
