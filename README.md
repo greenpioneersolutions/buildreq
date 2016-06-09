@@ -3,7 +3,7 @@
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
 [![dependencies](https://david-dm.org/greenpioneersolutions/buildreq.svg)](https://david-dm.org/greenpioneersolutions/buildreq)
-[![npm-issues](https://img.shields.io/github/issues/GreenPioneer/buildreq.svg)](https://github.com/GreenPioneer/buildreq/issues)
+[![npm-issues](https://img.shields.io/github/issues/greenpioneersolutions/buildreq.svg)](https://github.com/greenpioneersolutions/buildreq/issues)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/greenpioneersolutions/buildreq.svg?branch=master)](https://travis-ci.org/greenpioneersolutions/buildreq)
 [![js-standard-style](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)
@@ -16,33 +16,44 @@
 ## What is Build Response,Routing,Error & Query?
 It is currently a Mongoose & Express dependent module. It can be used in a different ways. It is most useful when used as a middleware with expressjs  in conjunction with your api.
 
+
+## Build.queryMiddleware
 ``` javascript
-
-    Build out docs and examples
-    Build.prototype.queryMiddleware
-    Build.prototype.query
-    Build.prototype.error
-    Build.prototype.response
-    Build.prototype.responseMiddleware
-    Build.prototype.routing
-    Build.prototype.config 
-    Build.prototype.mongooseCheck 
-
+console.log(build.query({mongoose:mongoose,req:req})
 ```
 
-## Init & Config
+## Build.query
 ``` javascript
-<!-- Init -  require('../buildreq')() -->
-var build = require('../buildreq')(<!-- Config option #1 {console: false}-->) 
-build.config(<!-- Config option #2 {console: false}-->)
+app.use(build.queryqueryMiddleware())
+//or send mongoose in if your having loading issues
+app.use(build.queryMiddleware({mongoose:mongoose}))
+``` 
+
+Configs
+``` javascript
+build.config({
+  query: {
+  //configs go here
+  }
+})
 ```
 
-## R - Response Builder - WORKING 
-
-The next common way to use this module is to have it build your api response so that you have a consistent format. This response is dynamic enough right off the bat to do logic based on actions you wish to give your frontend. Great thing is if you don’t like some of the fields you can delete them in the configs. 
-
+## Build.error
 ``` javascript
-//this places a response function on the RES
+app.use(build.error())
+``` 
+## Build.response
+``` javascript
+build.response(res, {
+    method: 'json',
+    query: req.queryParameters,
+    hostname: req.get('host') + req.path,
+    route: req.route,
+    data: 'no data'
+})
+```
+## Build.responseMiddleware
+``` javascript
 app.use(build.responseMiddleware())
 res.response(res, {
     count: results.count,
@@ -52,48 +63,9 @@ res.response(res, {
     route: req.route,
     data: results.get,
     type: Campaign
-  })
-
-//or standalone call to response
-build.response(res, {
-    method: 'json',
-    query: req.queryParameters,
-    hostname: req.get('host') + req.path,
-    route: req.route,
-    data: 'no data'
-  })
-
-
-``` 
-
-Configs
-``` javascript
-build.config({
-  response: {
-  //configs go here
-  }
 })
 ```
-
-Key | Description | Default Value
---- | --- | ---
-`method` | uses the GET method by default | `get`
-`data` | uses empty object by default | `{}`
-`user` | uses empty object by default | `{}`
-`count` | uses zero by default | `0`
-`hostname` | uses empty string by default | `''`
-`query` | uses empty object by default | `{}`
-`type` | uses empty string by default | `''`
-`actions.prev` | turns on action.prev by default | `true`
-`actions.next` | turns on action.next by default | `true`
-`actions.reload` | turns on action.reload by default | ` true`
-`middleware`| allows you to place middle ware on the routes | `auth: [],noauth: [],all: []`
-`delete` | deletes response objects | `[] `
-
-## R - Routing Builder - Working
-
-It is a optional routing builder . what it does is it creates CRUD routes and interacts with the database based off of the shcema from mongoose. More to come on it later.
-
+## Build.routing
 ``` javascript
 var blogSchema = mongoose.Schema({
   created: {
@@ -154,6 +126,35 @@ build.config({
   }
 })
 ```
+## Build.config
+``` javascript
+var build = require('../buildreq')
+build.config({configs: 'here'}-->)
+```
+
+
+## R - Response Builder
+
+The next common way to use this module is to have it build your api response so that you have a consistent format. This response is dynamic enough right off the bat to do logic based on actions you wish to give your frontend. Great thing is if you don’t like some of the fields you can delete them in the configs. 
+
+Key | Description | Default Value
+--- | --- | ---
+`method` | uses the GET method by default | `get`
+`data` | uses empty object by default | `{}`
+`user` | uses empty object by default | `{}`
+`count` | uses zero by default | `0`
+`hostname` | uses empty string by default | `''`
+`query` | uses empty object by default | `{}`
+`type` | uses empty string by default | `''`
+`actions.prev` | turns on action.prev by default | `true`
+`actions.next` | turns on action.next by default | `true`
+`actions.reload` | turns on action.reload by default | ` true`
+`middleware`| allows you to place middle ware on the routes | `auth: [],noauth: [],all: [],admin:[]`
+`delete` | deletes response objects | `[] `
+
+## R - Routing Builder
+
+It is a optional routing builder . what it does is it creates CRUD routes and interacts with the database based off of the shcema from mongoose. More to come on it later.
 
 Key | Description | Default Value
 --- | --- | ---
@@ -168,41 +169,25 @@ Key | Description | Default Value
 `deepPopulateOptions.rewrite` |  [Mongoose populate options](http://mongoosejs.com/docs/api.html#model_Model.populate) |`{}`
 
 
-## E - Error - N/A
-``` javascript
-app.use(build.error())
-``` 
+## E - Error
+The error is still being worked on to make better but currently it is a base level error handler
 
 
-## Q - Query Builder - WORKING
+## Q - Query Builder 
 
 The most common used way is as a dynamic query builder as express middleware. It watches on the “req.query “ to see how you users interacting with it. Once it captures the data it will then check it again all of you defined mongoose schemas. By doing that it allows the builder to know what to allow and what not to all. This will give you a dynamic api query handler with out having to code anything at all . All you need to do is to tell express to use the module as middleware “app.use(buildReq.query);”
 
-``` javascript
-app.use(build.queryqueryMiddleware())
-//or send mongoose in if your having loading issues
-app.use(build.queryMiddleware({mongoose:mongoose}))
-//or you can do a standalone call
-console.log(build.query({mongoose:mongoose,req:req})
-``` 
-
-Configs
-``` javascript
-build.config({
-  query: {
-  //configs go here
-  }
-})
-```
-
 Key | Description | Default Value
 --- | --- | ---
+`strict` | uses strict to make it follow strict to mongoose | `false`
 `sort` | uses created field by default | `'-created'`
 `filter` | uses empty object by default otherwise it finds dynamically based of schema | `{}`
 `limit` | uses empty string by default | `20`
 `select` | uses empty string by default | `''`
 `populateId` | uses empty string by default | `''`
 `populateItems` | uses empty string by default | `''`
+`limitToPopulateId` | uses empty string by default | `''`
+`limitToPopulateItems` | uses empty string by default | `''`
 `deepPopulate` | uses empty string by default | `''`
 `lean` | uses empty string by default | `''`
 `skip` | uses empty string by default | `0`
@@ -241,79 +226,20 @@ find | `http://localhost:3000/api/v1/campaigns?where=email&find=shawn@`
 aggregate | `http://localhost:3000/api/v1/campaigns/task/aggregated?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount`
   
 
-Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)
-### Simple Examples - One with mongoose and one with mongoose
-``` javascript
-//WITH MONGOOSE
-'use strict';
-var express = require('express')
-var mongoose = require('mongoose')
-var build = require('../buildreq')()
-var app = express();
-mongoose.connect('mongodb://localhost/mean-dev');
-var blogSchema = mongoose.Schema({
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    title: {
-        type: String,
-        required: true,
-        trim: true,
-        default: "testtitle"
-    }
-});
-var Blog = mongoose.model('Blog', blogSchema);
-app.use(build.query());
-//builds a complete api based of shcemas
-// http://localhost:3000/api/v1/blog - GET , CREATE  - http://localhost:3000/api/v1/blog/:blogId - PUT DELETE GET
-// http://localhost:3000/api/v1/users - GET , CREATE  - http://localhost:3000/api/v1/users/:blogId - PUT DELETE GET
-build.routing(app);
-app.get('/', function (req, res) {
-    res.json(req.queryParameters);
-})
-app.listen(3000, function () {
-    console.log("Express server listening on port 3000");
-});
-``` 
-``` javascript
-//WITHOUT MONGOOSE
-'use strict';
-var express = require('express')
-var build = require('../buildreq')()
-build.config({
-    query: {
-        schema: ['created', 'name', 'data', 'title']
-    }
-})
-var app = express();
-app.use(build.query());
-app.get('/', function (req, res) {
-    res.json(req.queryParameters);
-})
-app.listen(3000, function () {
-    console.log("Express server listening on port 3000");
-});
-``` 
 
 
 
 ### Future
- -Add Error Builder
- -Add Refactor
- -Add Get Production Ready
- -gulp 
- -testing - super agent
  -more docs
- -build BUILDREQ Schema
- - fix reload action
- - promises bluebird
  -debug
 
 ### Contributing
 Looking for anyone that could have a use for this module in his or her daily life to help contribute .
 
-### RUN EXAMPLE CODE - 
+### Examples
+
+Take a look at my [examples](https://github.com/greenpioneersolutions/buildreq/tree/master/ex)
+
 ``` bash
 cd /YOURDIRECTORY/
 npm install buildreq
@@ -321,84 +247,10 @@ cd ex/
 node app.js
 ``` 
 
+Created by ![Green Pioneer](http://greenpioneersolutions.com/img/icons/apple-icon-180x180.png)
 
-### RESPONSE LOOKS LIKE THIS IF I USE THIS URL -
-//http://localhost:3000/?created=GPS&sort=created&populateItems=author%20content%20author,created
-```javascript
-    {
-        "actions": {
-            "reload": {
-                "allowed": ["get"],
-                "ref": "localhost:3000/?sort=created&created=GPS&populateId=Blog%20Users&populateItems=author%20content%20created"
-            }
-        },
-        "query": {
-            "error": {},
-            "filter": {
-                "created": "GPS"
-            },
-            "skip": 0,
-            "where": "",
-            "gt": 1,
-            "lt": 0,
-            "in": [],
-            "lean": false,
-            "sort": "created",
-            "limit": 30,
-            "select": "",
-            "populateId": "Blog Users ",
-            "populateItems": "author content created "
-        },
-        "count": 0,
-        "itemPerPage": 0,
-        "data": [],
-        "user": {},
-        "type": "",
-        "error": {},
-        "success": true
-    }
-```
-
-### RESPONSE LOOKS LIKE THIS IF I USE THIS URL -
-//http://localhost:3000/
-```javascript
-    {
-        "actions": {
-            "reload": {
-                "allowed": ["get"],
-                "ref": "localhost:3000/"
-            }
-        },
-        "query": {
-            "error": {},
-            "filter": {},
-            "skip": 0,
-            "where": "",
-            "gt": 1,
-            "lt": 0,
-            "in": [],
-            "lean": false,
-            "sort": "-created",
-            "limit": 30,
-            "select": "",
-            "populateId": "Blog Users ",
-            "populateItems": "created title content author _id id __v name email username "
-        },
-        "count": 0,
-        "itemPerPage": 0,
-        "data": [],
-        "user": {},
-        "type": "",
-        "error": {},
-        "success": true
-    }
-```
-
-### CHECKOUT THE EXAMPLE IN /EX/APP.JS
-
-
-#### This is [on GitHub](https://github.com/GreenPioneer/buildreq)
-#### Find us [on GitHub](https://github.com/GreenPioneer)
+#### This is [on GitHub](https://github.com/greenpioneersolutions/buildreq)
+#### Find us [on GitHub](https://github.com/greenpioneersolutions)
 #### Find us [on Twitter](https://twitter.com/greenpioneerdev)
 #### Find us [on Facebook](https://www.facebook.com/Green-Pioneer-Solutions-1023752974341910)
 #### Find us [on The Web](http://greenpioneersolutions.com/)

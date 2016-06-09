@@ -1,3 +1,14 @@
+### 1.0.0(2016-06-09)
+MAJOR RELEASE
+
+#### Features
+* ** #6 Added Test Cases ** 
+* ** #7 LimitTo ** 
+* ** #8 EscapeRegExp ** 
+* ** #9 Routing ** 
+* ** #10 create errorhandler ** 
+* ** #11 Handle errors in query ** 
+
 ### 0.9.5(2016-05-05)
 PRE RELEASE
 

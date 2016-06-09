@@ -59,6 +59,9 @@ var usersSchema = mongoose.Schema({
     trim: true,
     default: 'testemail'
   },
+  roles: {
+    type: Array
+  },
   username: {
     type: String,
     required: true,
@@ -93,6 +96,7 @@ var blogSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
+
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'Users'
@@ -132,7 +136,7 @@ var middle = {
 build.routing({
   app: app,
   middleware: middle,
-  remove: ['users']
+  remove: [] // remove users
 }, function (error, data) {
   if (error) console.log(error)
 // console.log(data)
@@ -152,6 +156,36 @@ app.get('/response', function (req, res) {
     route: req.route,
     data: 'no data'
   })
+})
+app.get('/blog/test/', function (req, res) {
+  Blog.find(req.queryParameters.filter)
+    .where(req.queryParameters.where)
+    .sort(req.queryParameters.sort)
+    .select(req.queryParameters.select)
+    .limit(req.queryParameters.limit)
+    .skip(req.queryParameters.skip)
+    .exec(function (err, blogs) {
+      if (err) {
+        return res.status(500).json({
+          error: 'Cannot get the data'
+        })
+      }
+      Blog.count(req.queryParameters.filter, function (err, totalCount) {
+        if (err) {
+          return res.status(500).json({
+            error: 'Cannot get the data'
+          })
+        }
+        build.response(res, {
+          count: totalCount,
+          method: 'json',
+          query: req.queryParameters,
+          hostname: req.get('host') + req.path,
+          route: req.route,
+          data: blogs
+        })
+      })
+    })
 })
 app.get('/blog', function (req, res) {
   Blog.find(req.queryParameters.filter)
