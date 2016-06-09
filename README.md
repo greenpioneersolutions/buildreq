@@ -3,7 +3,7 @@
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
 [![dependencies](https://david-dm.org/greenpioneersolutions/buildreq.svg)](https://david-dm.org/greenpioneersolutions/buildreq)
-[![npm-issues](https://img.shields.io/github/issues/GreenPioneer/buildreq.svg)](https://github.com/GreenPioneer/buildreq/issues)
+[![npm-issues](https://img.shields.io/github/issues/greenpioneersolutions/buildreq.svg)](https://github.com/greenpioneersolutions/buildreq/issues)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/greenpioneersolutions/buildreq.svg?branch=master)](https://travis-ci.org/greenpioneersolutions/buildreq)
 [![js-standard-style](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/buildreq.png?downloads=true&downloadRank=true&stars=true)
