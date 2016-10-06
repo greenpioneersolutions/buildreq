@@ -1,3 +1,9 @@
+### 2.1.0(2016-10-06)
+MINOR RELEASE
+
+#### Features
+* ** #12 Update & Fix Config**
+
 ### 2.0.0(2016-10-06)
 MAJOR RELEASE
 

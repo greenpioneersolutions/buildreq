@@ -4,6 +4,7 @@ var assert = require('chai').assert
 var request = require('supertest')
 describe('BuildREQ', function () {
   before(function (done) {
+    this.timeout(10000)
     require('./seed.db.js')(function () {
       done()
     })
