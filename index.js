@@ -6,8 +6,6 @@
   var path = require('path')
   var chalk = require('chalk')
   var files = ['options.js', 'query.js', 'response.js', 'routing.js', 'error.js']
-  // var env = process // env  argv  platform arch
-  // console.log(env)
 
   fs.readdir(path.resolve(__dirname, './lib/'), function (err, checkFiles) {
     if (!err) {
@@ -26,11 +24,9 @@
   function Build (options) {
     if (options) {
       this.options = _.merge(functions.options, options)
-      this.options.query.mongoose = this.mongooseCheck()
       if (this.options.console)console.log(chalk.green('Custom:Configs Added On Build'))
     } else {
       this.options = functions.options
-      this.options.query.mongoose = this.mongooseCheck()
       if (this.options.console)console.log(chalk.blue('Default:Configs Added On Build'))
     }
   }
@@ -42,36 +38,32 @@
     } finally {
       mongoose.Promise = require('bluebird')
     }
-
-    this.options.query.mongoose = mongoose.connection.readyState === 0 ? 0 : 1
     var defaults = this.options.query
-    var schemas = {}
     var schema = []
     var schemaSort = []
     var models
-
     if (defaults.mongoose) {
       models = _.keys(mongoose.models)
       _.forEach(models, function (n, key) {
-        schemas[n] = {}
-        schemas[n].paths = mongoose.models[n].schema.paths
         _.forEach(mongoose.models[n].schema.tree, function (j, key) {
           schema.push(key)
-          schemaSort.push(key)
-          schemaSort.push('-' + key)
         })
       })
     } else {
-      schemaSort = schema = defaults.schema
+      if (this.options.console)console.log(chalk.blue('Custom:Schema used'))
+      schema = defaults.schema
     }
-
+    schema = _.uniq(schema)
+    _.forEach(schema, function (key) {
+      schemaSort.push(key)
+      schemaSort.push('-' + key)
+    })
     function setup () {
       return {
         mongoose: mongoose,
         options: this.options,
         defaults: defaults,
-        schemas: schemas,
-        schema: _.uniq(schema),
+        schema: schema,
         schemaSort: schemaSort,
         models: models,
         modelNameCheck: function (name) {
@@ -89,10 +81,7 @@
     } finally {
       mongoose.Promise = require('bluebird')
     }
-
-    this.options.query.mongoose = mongoose.connection.readyState === 0 ? 0 : 1
     var defaults = this.options.query
-    var schemas = {}
     var schema = []
     var schemaSort = []
     var models
@@ -100,17 +89,19 @@
     if (defaults.mongoose) {
       models = _.keys(mongoose.models)
       _.forEach(models, function (n, key) {
-        schemas[n] = {}
-        schemas[n].paths = mongoose.models[n].schema.paths
         _.forEach(mongoose.models[n].schema.tree, function (j, key) {
           schema.push(key)
-          schemaSort.push(key)
-          schemaSort.push('-' + key)
         })
       })
     } else {
-      schemaSort = schema = defaults.schema
+      if (this.options.console)console.log(chalk.blue('Custom:Schema used'))
+      schema = defaults.schema
     }
+    schema = _.uniq(schema)
+    _.forEach(schema, function (key) {
+      schemaSort.push(key)
+      schemaSort.push('-' + key)
+    })
 
     function setup () {
       return {
@@ -118,8 +109,7 @@
         options: this.options,
         req: params.req || {'query': {}},
         defaults: defaults,
-        schemas: schemas,
-        schema: _.uniq(schema),
+        schema: schema,
         schemaSort: schemaSort,
         models: models,
         modelNameCheck: function (name) {
@@ -158,7 +148,6 @@
   Build.prototype.routing = function (params, callback) {
     function setup () {
       var consoleReady = this.options.console
-      // console.log(mongoose.models.Blog.schema.paths.hours.isRequired) Look into checking required to validate
       try {
         var mongoose = params.mongoose || require('bluebird').promisifyAll(require('mongoose'))
       } catch (err) {
@@ -219,9 +208,7 @@
   Build.prototype.config = function (data) {
     if (data) {
       this.options = _.merge(this.options, data)
-      this.options.query.mongoose = this.mongooseCheck()
       if (this.options.console)console.log(chalk.green('Custom:Configs Added On Config'))
-      return this.query(this.options)
     } else {
       console.log(chalk.red('No Configs Added On Config'))
     }
