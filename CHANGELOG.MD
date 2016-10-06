@@ -1,3 +1,12 @@
+### 2.0.0(2016-10-06)
+MAJOR RELEASE
+
+#### Features
+* ** Or, Nor & And **
+* ** Fix to response skip & url builder **
+* ** Update Router get / **
+
+
 ### 1.0.0(2016-06-09)
 MAJOR RELEASE
 
