@@ -28,112 +28,141 @@ function seed (cb) {
       User.create([{
         email: 'jason@greenpioneersolutions.com',
         name: 'jason',
-        username: 'jason greenpioneer'
+        username: 'jason greenpioneer',
+        roles: ['gps', 'admin', 'user']
       }, {
         email: 'accounting@greenpioneersolutions.com',
         name: 'accounting',
-        username: 'accounting greenpioneer'
+        username: 'accounting greenpioneer',
+        roles: ['gps', 'user', 'accounting']
       }, {
         email: 'ceo@greenpioneersolutions.com',
         name: 'ceo',
-        username: 'ceo greenpioneer'
+        username: 'ceo greenpioneer',
+        roles: ['gps', 'admin', 'ceo']
       }, {
         email: 'development@greenpioneersolutions.com',
         name: 'development',
-        username: 'development greenpioneer'
+        username: 'development greenpioneer',
+        roles: ['gps', 'user', 'development']
       }, {
         email: 'qa@greenpioneersolutions.com',
         name: 'qa',
-        username: 'qa greenpioneer'
+        username: 'qa greenpioneer',
+        roles: ['gps', 'admin', 'qa']
       }, {
         email: 'help@greenpioneersolutions.com',
         name: 'help',
-        username: 'help greenpioneer'
+        username: 'help greenpioneer',
+        roles: ['gps', 'help']
       }]).then(function (users) {
         callback(null, users)
       })
     },
     function (Person, callback) {
-      console.log(Person, 'users')
       Blog.create([{
+        _id: '575796a2286ab1f5075dcd11',
         title: 'Development Tools',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[0]._id
       }, {
         title: 'Server and Client integration',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[0]._id
       }, {
         title: 'Smart Build System',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[0]._id
       }, {
         title: 'Modular Structure',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[0]._id
       }, {
         title: 'Optimized Build',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[1]._id
       }, {
         title: 'Deployment Ready',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[1]._id
       }, {
         title: 'Development Tools',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[1]._id
       }, {
         title: 'Server and Client integration',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[2]._id
       }, {
         title: 'Smart Build System',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[2]._id
       }, {
         title: 'Modular Structure',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[2]._id
       }, {
         title: 'Optimized Build',
-        user: Person._id
+        authors: [Person[4]._id, Person[0]._id, Person[2]._id],
+        user: Person[3]._id
       }, {
         title: 'Deployment Ready',
-        user: Person._id
+        authors: [Person[4]._id, Person[0]._id, Person[2]._id],
+        user: Person[3]._id
       }, {
         title: 'Development Tools',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[3]._id
       }, {
         title: 'Server and Client integration',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[4]._id
       }, {
         title: 'Smart Build System',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[4]._id
       }, {
         title: 'Modular Structure',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[4]._id
       }, {
         title: 'Optimized Build',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[5]._id
       }, {
         title: 'Deployment Ready',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[5]._id
       }, {
         title: 'Development Tools',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[5]._id
       }, {
         title: 'Server and Client integration',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[0]._id
       }, {
         title: 'Smart Build System',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[1]._id
       }, {
         title: 'Modular Structure',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[2]._id
       }, {
         title: 'Optimized Build',
-        user: Person._id
+        authors: [Person[0]._id, Person[1]._id, Person[2]._id],
+        user: Person[3]._id
       }, {
         title: 'Deployment Ready',
-        user: Person._id
+        authors: [Person[4]._id, Person[5]._id, Person[3]._id],
+        user: Person[4]._id
       }]).then(function (blogs) {
         callback(null, Person, blogs)
       })
     }
   ], function (err, users, blogs) {
     if (err) throw err
-    console.log('madfsksdfj')
     cb({
       users: users,
       blogs: blogs

@@ -96,7 +96,10 @@ var blogSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
-
+  authors: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Users'
+  }],
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'Users'
