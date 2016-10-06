@@ -14,17 +14,17 @@
 [downloads-url]: https://npmjs.org/package/buildreq
 
 ## What is Build Response,Routing,Error & Query?
-It is currently a Mongoose & Express dependent module. It can be used in a different ways. It is most useful when used as a middleware with expressjs  in conjunction with your api.
+It is currently a Mongoose & Express dependent module. It can be used in a different ways like building out dynamic routes, query filter in conjuction with your schema, Error handler & Standard response. It is most useful when used as a middleware with your expressjs api.
 
 
-## Build.queryMiddleware
+## Build.query
 ``` javascript
 console.log(build.query({mongoose:mongoose,req:req})
 ```
 
-## Build.query
+## Build.queryMiddleware
 ``` javascript
-app.use(build.queryqueryMiddleware())
+app.use(build.queryMiddleware())
 //or send mongoose in if your having loading issues
 app.use(build.queryMiddleware({mongoose:mongoose}))
 ``` 

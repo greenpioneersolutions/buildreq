@@ -2,123 +2,10 @@ require('../ex/app.js')
 
 var assert = require('chai').assert
 var request = require('supertest')
-var mongoose = require('mongoose')
-var User = mongoose.model('Users')
-var Blog = mongoose.model('Blog')
 describe('BuildREQ', function () {
   before(function (done) {
-    // require('./seed.db.js')
-    User.find({}).remove().exec(function () {
-      Blog.find({}).remove().exec(function () {
-        User.create([{
-          email: 'jason@greenpioneersolutions.com',
-          name: 'jason',
-          username: 'jason greenpioneer',
-          roles: ['gps', 'admin', 'user']
-        }, {
-          email: 'accounting@greenpioneersolutions.com',
-          name: 'accounting',
-          username: 'accounting greenpioneer',
-          roles: ['gps', 'user', 'accounting']
-        }, {
-          email: 'ceo@greenpioneersolutions.com',
-          name: 'ceo',
-          username: 'ceo greenpioneer',
-          roles: ['gps', 'admin', 'ceo']
-        }, {
-          email: 'development@greenpioneersolutions.com',
-          name: 'development',
-          username: 'development greenpioneer',
-          roles: ['gps', 'user', 'development']
-        }, {
-          email: 'qa@greenpioneersolutions.com',
-          name: 'qa',
-          username: 'qa greenpioneer',
-          roles: ['gps', 'admin', 'qa']
-        }, {
-          email: 'help@greenpioneersolutions.com',
-          name: 'help',
-          username: 'help greenpioneer',
-          roles: ['gps', 'help']
-        }]).then(function (Person) {
-          Blog.create([{
-            _id: '575796a2286ab1f5075dcd11',
-            title: 'Development Tools',
-            user: Person[0]._id
-          }, {
-            title: 'Server and Client integration',
-            user: Person[0]._id
-          }, {
-            title: 'Smart Build System',
-            user: Person[0]._id
-          }, {
-            title: 'Modular Structure',
-            user: Person[0]._id
-          }, {
-            title: 'Optimized Build',
-            user: Person[1]._id
-          }, {
-            title: 'Deployment Ready',
-            user: Person[1]._id
-          }, {
-            title: 'Development Tools',
-            user: Person[1]._id
-          }, {
-            title: 'Server and Client integration',
-            user: Person[2]._id
-          }, {
-            title: 'Smart Build System',
-            user: Person[2]._id
-          }, {
-            title: 'Modular Structure',
-            user: Person[2]._id
-          }, {
-            title: 'Optimized Build',
-            user: Person[3]._id
-          }, {
-            title: 'Deployment Ready',
-            user: Person[3]._id
-          }, {
-            title: 'Development Tools',
-            user: Person[3]._id
-          }, {
-            title: 'Server and Client integration',
-            user: Person[4]._id
-          }, {
-            title: 'Smart Build System',
-            user: Person[4]._id
-          }, {
-            title: 'Modular Structure',
-            user: Person[4]._id
-          }, {
-            title: 'Optimized Build',
-            user: Person[5]._id
-          }, {
-            title: 'Deployment Ready',
-            user: Person[5]._id
-          }, {
-            title: 'Development Tools',
-            user: Person[5]._id
-          }, {
-            title: 'Server and Client integration',
-            user: Person[0]._id
-          }, {
-            title: 'Smart Build System',
-            user: Person[1]._id
-          }, {
-            title: 'Modular Structure',
-            user: Person[2]._id
-          }, {
-            title: 'Optimized Build',
-            user: Person[3]._id
-          }, {
-            title: 'Deployment Ready',
-            user: Person[4]._id
-          }]).then(function (blogs) {
-            done()
-          })
-        })
-      })
+    require('./seed.db.js')(function () {
+      done()
     })
   })
   describe('BLOG', function () {
@@ -311,7 +198,7 @@ describe('BuildREQ', function () {
           done()
         })
     })
-    it('GET /api/v1/Blog?where=title&find=**Tools', function (done) {
+    it('GET /api/v1/Blog?where=title&find=**Development Tools', function (done) {
       request('localhost:3000/')
         .get('api/v1/Blog?where=title&find=**Development Tools')
         .expect(200, function (err, res) {
@@ -433,7 +320,7 @@ describe('BuildREQ', function () {
         })
     })
     // size  http://localhost:3000/api/v1/campaigns?where=emails&size=2
-    it('GET /api/v1/UsersUsers?where=roles&size=2', function (done) {
+    it('GET /api/v1/Users?where=roles&size=2', function (done) {
       request('localhost:3000/')
         .get('api/v1/Users?where=roles&size=2')
         .expect(200, function (err, res) {
@@ -459,20 +346,95 @@ describe('BuildREQ', function () {
           done()
         })
     })
-    // find  http://localhost:3000/api/v1/campaigns?where=email&find=shawn@
-    // it('GET /api/v1/Users?where=email&find=jason@', function (done) {
-    //   request('localhost:3000/')
-    //     .get('api/v1/Users?where=email&find=jason@')
-    //     .expect(200, function (err, res) {
-    //       if (err) return done(err)
 
-  //       assert.equal(res.body.query.find, 'Smart')
-  //       assert.isObject(res.body.query.where.title, {})
-  //       assert.equal(res.body.data.length, '4')
-  //       assert.equal(res.body.itemPerPage, '4')
-  //       assert.equal(res.body.count, '4')
-  //       done()
-  //     })
-  // })
+    // http://localhost:3000/api/v1/Users?or[roles]=gps&or[roles]=admin
+    it('GET /api/v1/Users?or[roles]=gps&or[roles]=admin', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?or[roles]=gps&or[roles]=admin')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.filter.$or[0].roles, 'gps')
+          assert.equal(res.body.query.filter.$or[1].roles, 'admin')
+          assert.equal(res.body.data.length, '6')
+          assert.equal(res.body.itemPerPage, '6')
+          assert.equal(res.body.count, '6')
+          done()
+        })
+    })
+
+    // http://localhost:3000/api/v1/Users?and[roles]=gps&and[roles]=admin
+    it('GET /api/v1/Users?and[roles]=gps&and[roles]=admin', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?and[roles]=gps&and[roles]=admin')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.filter.$and[0].roles, 'gps')
+          assert.equal(res.body.query.filter.$and[1].roles, 'admin')
+          assert.equal(res.body.data.length, '3')
+          assert.equal(res.body.itemPerPage, '3')
+          assert.equal(res.body.count, '3')
+          done()
+        })
+    })
+
+    // http://localhost:3000/api/v1/Users?nor[roles]=admin&nor[roles]=help
+    it('GET /api/v1/Users?nor[roles]=admin&nor[roles]=help', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?nor[roles]=admin&nor[roles]=help')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.filter.$nor[0].roles, 'admin')
+          assert.equal(res.body.query.filter.$nor[1].roles, 'help')
+          assert.equal(res.body.data.length, '2')
+          assert.equal(res.body.itemPerPage, '2')
+          assert.equal(res.body.count, '2')
+          done()
+        })
+    })
+
+    // find  http://localhost:3000/api/v1/Users?where=email&find=jason@
+    it('GET /api/v1/Users?where=email&find=jason@', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=email&find=jason@')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+
+          assert.equal(res.body.query.find, 'jason@')
+          assert.isObject(res.body.query.where.email, {})
+          assert.equal(res.body.data.length, '1')
+          assert.equal(res.body.itemPerPage, '1')
+          assert.equal(res.body.count, '1')
+          done()
+        })
+    })
+    // find  http://localhost:3000/api/v1/Users?where=email&find=@greenpioneersolutions.com
+    it('GET /api/v1/Users?where=email&find=@greenpioneersolutions.com', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Users?where=email&find=@greenpioneersolutions.com')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+
+          assert.equal(res.body.query.find, '@greenpioneersolutions.com')
+          assert.isObject(res.body.query.where.email, {})
+          assert.equal(res.body.data.length, '6')
+          assert.equal(res.body.itemPerPage, '6')
+          assert.equal(res.body.count, '6')
+          done()
+        })
+    })
+
+    // http://localhost:3000/api/v1/campaigns/task/aggregate?aggregate[$unwind]=$donations&aggregate[$group][_id]=$_id&aggregate[$group][balance][$sum]=$donations.amount
+    it('GET /api/v1/Blog/task/aggregate?aggregate[$group][_id]=$user', function (done) {
+      request('localhost:3000/')
+        .get('api/v1/Blog/task/aggregate?aggregate[$group][_id]=$user')
+        .expect(200, function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.query.aggregate[0]['$group']._id, '$user')
+          assert.equal(res.body.data.length, '6')
+          assert.equal(res.body.itemPerPage, '6')
+          assert.equal(res.body.count, '6')
+          done()
+        })
+    })
   })
 })
