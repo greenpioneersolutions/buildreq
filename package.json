@@ -64,7 +64,7 @@
     "compression": "^1.6.0",
     "debug": "^2.2.0",
     "express": "^4.13.3",
-    "helmet": "^2.3.0",
+    "helmet": "^3.1.0",
     "http-status-codes": "^1.0.6",
     "lodash": "^4.5.1",
     "method-override": "^2.3.5",
@@ -76,9 +76,9 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "mocha": "^2.3.4",
-    "standard": "^5.3.1",
-    "supertest": "^1.1.0"
+    "mocha": "^3.2.0",
+    "standard": "^8.6.0",
+    "supertest": "^2.0.1"
   },
   "engines": {
     "node": ">= 0.10.0"
