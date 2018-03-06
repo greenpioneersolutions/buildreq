@@ -1,3 +1,9 @@
+### 2.1.1(2018-03-06)
+PATCH RELEASE
+
+#### Features
+* ** #14 Update Dependencies
+
 ### 2.1.0(2016-10-06)
 MINOR RELEASE
 
